@@ -1,0 +1,1281 @@
+25.9.2017
+
+#include <digitalWriteFast.h>
+
+#include <Adafruit_LEDBackpack.h>
+
+#include <Adafruit_GFX.h>
+#include <gfxfont.h>
+
+#include <Wire.h>
+
+
+/* How to activate:
+   1.close Eventghost or Serial if open.
+   2. upload the 'Ktane_Code' file to make sure
+   it is on the newest version.
+   3. open EventGhost.
+   4. read the input serial from the eventghost
+   and do as it says.
+   5. press the big button to activate the bomb.
+   6. don't die ;p*
+
+
+  not neceserally part of the activation
+*/
+int mazeOptions[6][15][15] = {{
+    {3, 0, 3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 3, 0, 3},
+    {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
+    {3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3},
+    {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
+    {3, 1, 3, 0, 3, 0, 3, 1, 3, 1, 2, 1, 2, 1, 3},
+    {0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
+    {3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 3, 0, 3},
+    {1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+    {3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 3},
+    {1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+    {3, 0, 3, 1, 3, 1, 3, 0, 3, 1, 3, 0, 3, 0, 3},
+    {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1},
+    {3, 1, 2, 1, 3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 0},
+    {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
+    {3, 1, 2, 1, 2, 1, 3, 0, 3, 0, 3, 0, 3, 1, 0}
+  },
+  {
+    {3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3},
+    {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {3, 1, 3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 3},
+    {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+    {3, 1, 3, 1, 2, 1, 3, 1, 3, 1, 2, 1, 3, 1, 3},
+    {0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0},
+    {3, 1, 3, 1, 2, 1, 3, 1, 3, 1, 2, 1, 3, 1, 3},
+    {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+    {3, 1, 3, 0, 3, 1, 3, 1, 3, 1, 3, 0, 3, 1, 3},
+    {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
+    {3, 0, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 0, 3},
+    {1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
+    {0, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 0},
+    {0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0},
+    {0, 1, 3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 0}
+  },
+  {
+    {3, 0, 3, 0, 3, 1, 3, 1, 3, 1, 3, 0, 3, 0, 3},
+    {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1},
+    {3, 0, 3, 1, 3, 1, 3, 1, 3, 0, 3, 0, 3, 0, 3},
+    {1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1},
+    {3, 0, 3, 1, 3, 1, 3, 1, 3, 1, 3, 0, 3, 0, 3},
+    {1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
+    {3, 0, 3, 1, 3, 1, 3, 0, 3, 1, 3, 0, 3, 1, 3},
+    {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0},
+    {3, 1, 3, 1, 3, 1, 2, 2, 2, 1, 3, 1, 3, 1, 3},
+    {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0},
+    {3, 1, 3, 1, 3, 1, 3, 0, 3, 1, 3, 1, 3, 0, 3},
+    {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1},
+    {3, 1, 3, 0, 3, 1, 3, 1, 3, 1, 3, 1, 2, 1, 0},
+    {0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 2, 1, 0},
+    {3, 0, 3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 2, 1, 0}
+  }, {
+    {3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 3},
+    {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {3, 0, 3, 1, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3},
+    {1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
+    {3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 2, 2, 2, 1, 3},
+    {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 2, 1, 0},
+    {3, 1, 2, 1, 3, 0, 3, 1, 3, 0, 3, 1, 2, 1, 3},
+    {0, 1, 2, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0},
+    {3, 1, 2, 2, 2, 1, 3, 0, 3, 1, 3, 0, 3, 1, 3},
+    {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1},
+    {3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3},
+    {0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+    {3, 1, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 0},
+    {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+    {3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 0}
+  }, {
+    {3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3},
+    {0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0},
+    {3, 1, 3, 0, 3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 3},
+    {0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
+    {3, 1, 3, 1, 2, 2, 2, 1, 3, 0, 3, 0, 3, 1, 3},
+    {0, 1, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 1, 0},
+    {3, 1, 3, 1, 3, 1, 2, 1, 3, 1, 3, 0, 3, 1, 3},
+    {0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
+    {3, 1, 3, 0, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3},
+    {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+    {3, 0, 3, 1, 3, 1, 3, 0, 3, 0, 3, 1, 3, 1, 3},
+    {1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1},
+    {2, 1, 3, 1, 3, 0, 3, 0, 3, 0, 3, 1, 3, 1, 0},
+    {2, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {2, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 0}
+  }, {
+    {3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3},
+    {1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1},
+    {3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 3, 1, 3, 0, 3},
+    {1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+    {3, 1, 3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 2, 1, 3},
+    {0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 2, 1, 0},
+    {3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 2, 1, 3},
+    {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+    {3, 1, 3, 0, 3, 0, 3, 0, 3, 1, 3, 1, 3, 0, 3},
+    {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 3, 1, 3},
+    {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1},
+    {3, 0, 3, 1, 2, 1, 3, 0, 3, 1, 3, 0, 3, 1, 0},
+    {0, 1, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+    {3, 1, 2, 2, 2, 1, 3, 1, 3, 0, 3, 0, 3, 1, 0}
+  }
+};
+int playerx;
+int playery;
+int arrows_last[4];
+
+boolean blinkColon = false;
+#define DISPLAY_ADDRESS   0x70
+Adafruit_7segment clockDisplay = Adafruit_7segment();
+// * * Bomb Variables * *
+
+enum {_10V, _5V, _33V} voltage = _10V;
+//String wires_Possibilities4[9][6] = {{}};
+String LettersToMorse[40] = {"01", "1000", "1010", "100", "0", "0010", "110", "0000", "00", "0111", "101", "0100", "11", "10", "111", "0110", "1101", "010", "000", "1", "001", "0001", "011", "1001", "1011", "1100", "11111", "01111", "00111", "00011", "00001", "00000", "10000", "11000", "11100", "11110", "001100", "101011", "2", ""};
+String Words[] = {"Send help", "no", "Sos", "Sorry", "wire", "cut", "defuse", "bomb", "what?", "Sup", "West", "East", "Sorry", "What?", "Alt", "F4", "You know", "Ha ha!", "morse", "code", "3141", "590", "Cake", "Lie", "Webo", "Sass", "House", "City", "Bomb", "SOS", "Maze", "Move", "Hear", "speak", "mental", "again", "Hold", "Press", "Care", "que"};
+String button_Colors[5] = {"Blue", "Red", "White", "Green", "Black"};
+String button_Labels[] = {"", "", "Hold", "Abort", "Detonator", "Smash", "DickButt"};
+String serialPossibilities[6] = {"E33BAP", "DAB", "C", "D", "E", "F"};
+String wires_Colors[6] = {"Yellow", "Orange", "Black", "Blue", "Red", "White"};
+String wires_Layout[6];
+int wires_IO[6];
+int simpleWireOuts[] = {1, 2, 1, 1, 0, 0};
+int mazeNumber;
+String serial;
+int batteryCount;
+String button_Color;
+String button_Label;
+boolean button_last = true;
+boolean wireCut;
+int mode; // 0 - press 1- hold 2 - leave
+int rgb_Color; // 0 - blue 1-yellow 2-red 3-green 4-white.
+
+int morse_wordNum;
+int morse_loc = 0;
+int morse_button_loc = 0;
+boolean clicked = false;
+char lineDot[100];
+char lineDot2[100];
+boolean morse_start = false, morse_press = false;
+String message, response, morse_message, morse_response;
+//ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?!
+unsigned long morse_timer;
+unsigned long led_timer = 0;
+unsigned long last_press;
+
+// * * Game stats * *
+// 1:Wires 2:Maze 3:Button
+int solved_Beep[5] = {0, 0, 0, 0, 1}; //TMP {0,0,0,1,1}
+int solved_Modules[5] = {0, 0, 0, 0, 1}; //TBU more
+int solved = 0;
+int strikes = 0;
+int timer = 300;
+boolean start = false;
+boolean start_pressed = false;
+
+
+// * * Timers * *
+
+unsigned long button_Timer = 9999999;
+unsigned long timeTick;
+unsigned long wireTimer = 4294960000;
+unsigned long timerB = 9999999;
+int priorityB = 0;  //buzzer current priority
+
+
+// * * Wires * *
+//                  left up right down
+int matrix_arrows[4] = {6, 5, 7, 4};//4-7
+int matrix_Pins_Row[8] = {27, 2, 31, 30, 22, 29, 24, 25}; //2 + 13 + 22-34
+int matrix_Pins_Col[8] = {13, 26, 28, 23, 33, 32, 18, 34};
+
+int wires_Pins[6] = {17, 16, 15, 14, 1, 1}; //not right //14-17
+int simpleWireCount;
+/*int minuteDigitPin[7] = {53, 52, 51, 50, 49, 48, 47};//55-34
+  int tenDigitPin[7] = {55, 45, 44, 43, 42, 41, 40 };
+  int secondDigitPin[7] = {46, 39, 38, 37, 36, 35, 34};*/
+int buzzer_pin = 3;
+int rgb_pins[3] = {9, 11, 12};
+int buttonPin = A0;
+int morse_button = 37;
+int morse_led = 35;
+int morse_buzzer = 8;
+
+void setup() {
+  randomSeed(analogRead(A7));
+  Serial.begin(9600);
+  // set wires to output
+  
+  clockDisplay.begin(DISPLAY_ADDRESS);
+  pinMode(buzzer_pin, OUTPUT);
+  pinMode(20, OUTPUT);
+  pinMode(21, OUTPUT);
+  for (int z = 0; z < (sizeof(matrix_Pins_Row) / sizeof(matrix_Pins_Row[0])); z++) {
+    pinMode(matrix_Pins_Row[z], OUTPUT);
+  }
+  for (int z = 0; z < (sizeof(matrix_Pins_Col) / sizeof(matrix_Pins_Col[0])); z++) {
+    pinMode(matrix_Pins_Col[z], OUTPUT);
+  }
+  for (int z = 0; z < (sizeof(matrix_arrows) / sizeof(matrix_arrows[0])); z++) {
+    pinMode(matrix_arrows[z], INPUT);
+  }
+
+  for (int z = 0; z < (sizeof(wires_Pins) / sizeof(wires_Pins[0])); z++) {
+    pinMode(wires_Pins[z], INPUT);
+  }
+
+  for (int z = 0; z < (sizeof(rgb_pins) / sizeof(rgb_pins[0])); z++) {
+    pinMode(rgb_pins[z], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT);
+
+  pinMode(morse_button, INPUT);
+  pinMode(morse_led, OUTPUT);
+  pinMode(morse_buzzer, OUTPUT);
+
+  morse_wordNum = random(20) * 2;
+  message = Words[morse_wordNum];
+  response = Words[morse_wordNum + 1];
+  message.toLowerCase();
+  response.toLowerCase();
+  char broken[message.length()];
+  message.toCharArray(broken, message.length() + 1);
+  for (int l = 0; l < message.length(); l++) {
+    int letterInt;
+    switch (broken[l]) {
+      case 'a':
+        letterInt = 0;
+        break;
+      case 'b':
+        letterInt = 1;
+        break;
+      case 'c':
+        letterInt = 2;
+        break;
+      case 'd':
+        letterInt = 3;
+        break;
+      case 'e':
+        letterInt = 4;
+        break;
+      case 'f':
+        letterInt = 5;
+        break;
+      case 'g':
+        letterInt = 6;
+        break;
+      case 'h':
+        letterInt = 7;
+        break;
+      case 'i':
+        letterInt = 8;
+        break;
+      case 'j':
+        letterInt = 9;
+        break;
+      case 'k':
+        letterInt = 10;
+        break;
+      case 'l':
+        letterInt = 11;
+        break;
+      case 'm':
+        letterInt = 12;
+        break;
+      case 'n':
+        letterInt = 13;
+        break;
+      case 'o':
+        letterInt = 14;
+        break;
+      case 'p':
+        letterInt = 15;
+        break;
+      case 'q':
+        letterInt = 16;
+        break;
+      case 'r':
+        letterInt = 17;
+        break;
+      case 's':
+        letterInt = 18;
+        break;
+      case 't':
+        letterInt = 19;
+        break;
+      case 'u':
+        letterInt = 20;
+        break;
+      case 'v':
+        letterInt = 21;
+        break;
+      case 'w':
+        letterInt = 22;
+        break;
+      case 'x':
+        letterInt = 23;
+        break;
+      case 'y':
+        letterInt = 24;
+        break;
+      case 'z':
+        letterInt = 25;
+        break;
+      case '0':
+        letterInt = 26;
+        break;
+      case '1':
+        letterInt = 27;
+        break;
+      case '2':
+        letterInt = 28;
+        break;
+      case '3':
+        letterInt = 29;
+        break;
+      case '4':
+        letterInt = 30;
+        break;
+      case '5':
+        letterInt = 31;
+        break;
+      case '6':
+        letterInt = 32;
+        break;
+      case '7':
+        letterInt = 33;
+        break;
+      case '8':
+        letterInt = 34;
+        break;
+      case '9':
+        letterInt = 35;
+        break;
+      case '?':
+        letterInt = 36;
+        break;
+      case '!':
+        letterInt = 37;
+        break;
+      case ' ':
+        letterInt = 38;
+        break;
+    }
+    morse_message += LettersToMorse[letterInt];
+    morse_message += " ";
+  }
+  morse_message.toCharArray(lineDot, morse_message.length() + 1);
+  //BERLIN WALL OF THE RESPONES NESSAGE STUPID SENTANCE +++++++  (i think i wrote this because its a comment line between the message and the response. i was stupid two weeks ago)
+  char broken2[response.length()];
+  response.toCharArray(broken2, response.length() + 1);
+  for (int l = 0; l < response.length(); l++) {
+    int letterInt;
+    switch (broken2[l]) {
+      case 'a':
+        letterInt = 0;
+        break;
+      case 'b':
+        letterInt = 1;
+        break;
+      case 'c':
+        letterInt = 2;
+        break;
+      case 'd':
+        letterInt = 3;
+        break;
+      case 'e':
+        letterInt = 4;
+        break;
+      case 'f':
+        letterInt = 5;
+        break;
+      case 'g':
+        letterInt = 6;
+        break;
+      case 'h':
+        letterInt = 7;
+        break;
+      case 'i':
+        letterInt = 8;
+        break;
+      case 'j':
+        letterInt = 9;
+        break;
+      case 'k':
+        letterInt = 10;
+        break;
+      case 'l':
+        letterInt = 11;
+        break;
+      case 'm':
+        letterInt = 12;
+        break;
+      case 'n':
+        letterInt = 13;
+        break;
+      case 'o':
+        letterInt = 14;
+        break;
+      case 'p':
+        letterInt = 15;
+        break;
+      case 'q':
+        letterInt = 16;
+        break;
+      case 'r':
+        letterInt = 17;
+        break;
+      case 's':
+        letterInt = 18;
+        break;
+      case 't':
+        letterInt = 19;
+        break;
+      case 'u':
+        letterInt = 20;
+        break;
+      case 'v':
+        letterInt = 21;
+        break;
+      case 'w':
+        letterInt = 22;
+        break;
+      case 'x':
+        letterInt = 23;
+        break;
+      case 'y':
+        letterInt = 24;
+        break;
+      case 'z':
+        letterInt = 25;
+        break;
+      case '0':
+        letterInt = 26;
+        break;
+      case '1':
+        letterInt = 27;
+        break;
+      case '2':
+        letterInt = 28;
+        break;
+      case '3':
+        letterInt = 29;
+        break;
+      case '4':
+        letterInt = 30;
+        break;
+      case '5':
+        letterInt = 31;
+        break;
+      case '6':
+        letterInt = 32;
+        break;
+      case '7':
+        letterInt = 33;
+        break;
+      case '8':
+        letterInt = 34;
+        break;
+      case '9':
+        letterInt = 35;
+        break;
+      case '?':
+        letterInt = 36;
+        break;
+      case '!':
+        letterInt = 37;
+        break;
+      case ' ':
+        letterInt = 39;
+        break;
+    }
+    morse_response += LettersToMorse[letterInt];
+  }
+  morse_response.toCharArray(lineDot2, morse_response.length() + 1);
+  //RESPONSE END +++++++++++++++++++++++++++++++++++++++++++++++++
+
+  // * * Randomize * *
+  mazeNumber = random(0, 6);
+  batteryCount = constrain(random(0, 5) - 1, 0, 10);
+  serial = serialPossibilities[random(6)];
+  simpleWireCount = random(2, 4) + 1; //TBU random(2,6)
+  //simpleWireCount = 4;
+  button_Color = button_Colors[random(5)];
+  button_Label = button_Labels[round(random(700) / 100)];
+  do {
+    playerx = random(8);
+    playery = random(8);
+  } while (mazeOptions[mazeNumber][playery * 2][playerx * 2] != 3);
+  int goalx;
+  int goaly;
+  do {
+    goalx = random(8);
+    goaly = random(8);
+  } while (mazeOptions[mazeNumber][goaly * 2][goalx * 2] != 3 || abs(goaly - playery) < 3 || abs(goalx - playerx) < 3);
+  mazeOptions[mazeNumber][goaly * 2][goalx * 2] = 5;
+  int orange = 0;
+  switch (simpleWireCount) {
+    case 3:
+      for (int c = 0; c < simpleWireCount; c++) {
+        wires_Layout[c] = wires_Colors[random(0, 4)]; //excluding red for now
+      }
+
+      for (int o = 0; o < 6; o++) {
+        if (wires_Layout[o] == "Orange")
+          orange++;
+      }
+      if (orange == 0) {
+        int temp_wires[6] = {2, 1, 1, 0, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      else if (wires_Layout[3] == "Black") {
+        int temp_wires[6] = {1, 2, 1, 0, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      else if (4 == 42) { //TBU ADD PORT
+        int temp_wires[6] = {1, 1, 2, 0, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      else {
+        int temp_wires[6] = {3, 3, 3, 0, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      break;
+
+    case 4:
+      for (int c = 0; c < simpleWireCount; c++) {
+        wires_Layout[c] = wires_Colors[random(0, 5)]; //excluding red for now
+      }
+      int red = 0;
+      int blue = 0;
+      int yellow = 0;
+      int red_pos = 0;
+      int yellow_locs[6] = {1, 1, 1, 1, 0, 0};
+      for (int o = 0; o < 6; o++) {
+        if (wires_Layout[o] == "Red") {
+          red++;
+          red_pos = o;
+        }
+
+        else if (wires_Layout[o] == "Yellow") {
+          yellow_locs[o] = 3;
+          yellow++;
+        }
+        else if (wires_Layout[o] == "Blue") {
+          blue++;
+        }
+      }
+
+      if (red > 1 && 1 == 1) { //TBU Serial
+        int temp_wires[6] = {1, 1, 1, 1, 0, 0};
+        temp_wires[red_pos] = 2;
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      else if (red == 0 && wires_Layout[3] == "Yellow") {
+        int temp_wires[6] = {2, 1, 1, 1, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      else if (blue == 1) {
+        int temp_wires[6] = {1, 1, 2, 1, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      else if (yellow > 1) {
+
+        arrayCopy(wires_IO, yellow_locs, 6);
+      }
+      else {
+        int temp_wires[6] = {1, 2, 1, 1, 0, 0};
+        arrayCopy(wires_IO, temp_wires, 6);
+      }
+      break;
+  }
+  if (batteryCount < 0) {
+    batteryCount = 0;
+  }
+  if (!(button_Color == "Blue" && button_Label == "Abort") && !(batteryCount > 1 && button_Label == "") && !(button_Color == "Red" && 1 == 609) && (button_Label == "DickButt")) { //TBU same port
+    solved_Beep[2] = 1;
+    solved_Modules[2] = 1;
+  }
+  // * * Print what has to be done,
+  for (int c = 0; c < 6; c++) {
+    Serial.println((String)(c + 1) + ":  Color - " + (String)wires_Layout[c] + "  I/O: " + (String)wires_IO[c]);
+  }
+  Serial.println("Color: " + button_Color + ", Label: \"" + button_Label + "\"");
+  Serial.println("Batteries: " + (String)batteryCount);
+  Serial.println("Press on button when ready!");
+
+}
+
+void loop() {                                                     //----------  -LOOP------------
+  if (start == false) {
+    if (digitalRead(buttonPin) == 1) {
+      start_pressed = true;
+    }
+    else if (start_pressed) {
+      start = true;
+    }
+  }
+  else {
+    if (timer <= 0) {
+      strikes = 3;
+    }
+    explode();
+    save();
+    timerLoop();
+    morse_check();
+    Button();
+    maze();
+    simpleWires();
+
+    correctBeep();
+  }
+}
+//
+void save() {
+  solved = 1;
+  for (int i = 0; i < sizeof(solved_Modules) / sizeof(solved_Modules[0]); i++) {
+    if (solved_Modules[i] == 0)
+      solved = 0;
+  }
+  if (solved == 1) {
+    for (int z = 0; z < (sizeof(matrix_Pins_Row) / sizeof(matrix_Pins_Row[0])); z++) {            // -
+      digitalWrite(matrix_Pins_Row[z], LOW);
+    }
+    for (int z = 0; z < (sizeof(matrix_Pins_Col) / sizeof(matrix_Pins_Col[0])); z++) {
+      digitalWrite(matrix_Pins_Col[z], LOW);
+    }
+    for (int z = 0; z < (sizeof(wires_Pins) / sizeof(wires_Pins[0])); z++) {
+      digitalWrite(wires_Pins[z], LOW);
+    }
+     for (int z = 0; z < (sizeof(rgb_pins) / sizeof(rgb_pins[0])); z++) {
+      digitalWrite(rgb_pins[z], LOW);
+    }
+    Serial.println("SOLVED");
+    delay(100);                                                                             //
+    exit(1);                                                                                //
+  }                                                                                         //    The four functions
+}                                                                                           //    of life in the bomb.
+void error() {                                                                              //
+  strikes++;                                                                                //
+  buzzer(3, 400, 400);                                                                        //
+}
+
+void correctBeep() {
+  boolean newSucc = false;
+
+  for (int i = 0; i < 5; i++) { //TBU MORE
+    if (solved_Beep[i] != solved_Modules[i]) {
+      newSucc = true;
+    }
+    solved_Beep[i] = solved_Modules[i];
+  }
+  if (newSucc)
+    buzzer(2, 1000, 230);
+}
+void explode() {
+  if (strikes >= 3) {
+    clockDisplay.writeDigitRaw(0,0x00);
+    clockDisplay.writeDigitRaw(1,0x00);
+    clockDisplay.drawColon(false);
+    clockDisplay.writeDigitRaw(3,0x00);
+    clockDisplay.writeDigitRaw(4,0x00);
+    clockDisplay.writeDisplay();
+    for (int z = 0; z < (sizeof(matrix_Pins_Row) / sizeof(matrix_Pins_Row[0])); z++) {
+      digitalWrite(matrix_Pins_Row[z], LOW);
+    }
+    for (int z = 0; z < (sizeof(matrix_Pins_Col) / sizeof(matrix_Pins_Col[0])); z++) {
+      digitalWrite(matrix_Pins_Col[z], LOW);
+    }
+    for (int z = 0; z < (sizeof(wires_Pins) / sizeof(wires_Pins[0])); z++) {
+      digitalWrite(wires_Pins[z], LOW);
+    }
+     for (int z = 0; z < (sizeof(rgb_pins) / sizeof(rgb_pins[0])); z++) {
+      digitalWrite(rgb_pins[z], LOW);
+    }
+    
+    Serial.println("explode");
+    delay(100);
+    exit(1);                                                                          //-
+  }
+}
+//
+
+
+//*  *  *  *  *  * *MODULES:*  *  *  *  *  *  *
+
+
+
+
+void timerLoop() {
+  if (timeTick + (1000 * pow(2, 2 - strikes) / (4 - strikes)) < millis()) {   //1000 * 4/4, 2/3, 1/2
+    timer--;
+    if (timer != 0) {
+      buzzer(1, 800, 100);
+          clockDisplay.writeDigitNum(4, timer % 60 % 10, false); //seconds
+      clockDisplay.writeDigitNum(3, timer % 60 / 10, false); //tenths
+      clockDisplay.writeDigitNum(1, timer / 60 % 10, false); //minutes
+      clockDisplay.writeDigitNum(0, timer / 600, false); //tenminutes
+      blinkColon = !blinkColon;
+      clockDisplay.drawColon(blinkColon);
+      clockDisplay.writeDisplay();
+    }
+    timeTick = millis();
+  }
+}
+
+void simpleWires() {
+  for (int i = 0; i < 4; i++) { //TBU 6
+
+    if (wires_IO[i] == 3) {
+      if (digitalRead(wires_Pins[i]) == 0) {
+        if (wireCut == false) {
+
+          wireTimer = millis();
+          wireCut = true;
+        }
+      }
+      if (millis() > wireTimer + 550) {
+        boolean werror = false;
+        for (int a = 0; a < 6; a++) {
+          if (wires_IO[a] == 3) {
+            if (digitalRead(wires_Pins[a]) == 1) {
+              werror = true;
+
+            }
+            else {
+
+              wires_IO[a] = 0;
+            }
+          }
+        }
+        if (werror == true) {
+          Serial.println("Wires");
+          wireTimer = 4294960000;
+          error();
+          werror = false;
+          wireCut = false;
+        }
+        else {
+          solved_Modules[0] = 1;
+        }
+      }
+    }
+    else if (wires_IO[i] == 2) {
+      if (digitalRead(wires_Pins[i]) == 0) {
+        solved_Modules[0] = 1;
+      }
+    }
+    else {
+      if (digitalRead(wires_Pins[i]) != wires_IO[i]) {
+        Serial.println("Wires3");
+        error();
+        wires_IO[i] = digitalRead(wires_Pins[i]);
+      }
+    }
+  }
+}
+
+void morse_check() {
+
+  if (digitalRead(morse_button)) {
+
+    morse_start = true;
+    morse_press = true;
+    if (!clicked) {
+      last_press = millis();
+      clicked = true;
+    }
+    //tone(morse_buzzer, 1000, 1);
+  }
+  else {
+    clicked = false;
+  }
+  if (morse_start == true) {
+
+    if (!digitalRead(morse_button) && morse_press == true) {
+      morse_press = false;
+      int io;
+      if (millis() - last_press < 270) { //Dot
+        io = 0;
+      }
+      else { //line
+        io = 1;
+      }
+      if (lineDot2[morse_button_loc] - '0' == io) {
+        morse_button_loc++;
+
+        if (morse_button_loc > morse_response.length() - 1) {
+          solved_Modules[3] = 1;
+        }
+      }
+      else {
+        morse_button_loc = 0;
+        morse_start = false;
+        error();
+
+      }
+
+    }
+
+  }
+
+  if (millis() > led_timer) {
+    digitalWrite(morse_led, LOW);
+  }
+  if (millis() > morse_timer) {
+    morse_update();
+  }
+}
+void morse_update() {
+  int k = 2;
+
+  if (morse_loc > morse_message.length())
+    morse_loc = 0;
+  switch (lineDot[morse_loc]) {
+    case '1':
+      digitalWrite(morse_led, HIGH);
+      if (!morse_start)
+        //tone(morse_buzzer, 600, 300 * k);
+        led_timer = millis() + (300 * k);
+      morse_timer = millis() + (380 * k);
+      break;
+    case '0':
+      digitalWrite(morse_led, HIGH);
+      if (!morse_start)
+        //tone(morse_buzzer, 600, 100 * k);
+        led_timer = millis() + (100 * k);
+      morse_timer = millis() + (200 * k);
+      break;
+    case '2':
+      morse_timer = millis() + (500 * k);
+      break;
+    case ' ':
+      morse_timer = millis() + (250 * k);
+      break;
+
+  }
+  morse_loc++;
+  if (morse_loc > morse_message.length()) {
+    morse_loc = 0;
+    morse_timer = millis() + (1000 * k);
+  }
+
+
+}
+
+
+void maze() {                                                                              //---- MAZE ---
+  if (solved_Modules[1] == 0) {
+    mazeOptions[mazeNumber][playery * 2][playerx * 2] = 0;
+    if (digitalRead(matrix_arrows[0]) == 1 && arrows_last[0] != 1) {                         //
+      if (mazeOptions[mazeNumber][playery * 2][(playerx * 2) - 1] != 1)
+        playerx--;
+      else {
+        error();
+      }
+    }
+    if (digitalRead(matrix_arrows[1]) == 1 && arrows_last[1] != 1) {                          //   ___________
+      if (mazeOptions[mazeNumber][(playery * 2) - 1][playerx * 2] != 1)                       //  |  __  |  | |
+        playery--;                                                                            //  |__  | | |__|
+      else {                                                                                  //     | |___|  |
+        error();                                                                              //  |_|___  |   |
+      }                                                                                       //  |  ___  | |_|
+    }                                                                                         //  | |_____|   |
+    if (digitalRead(matrix_arrows[2]) == 1 && arrows_last[2] != 1) {                          //  |_________|_|
+      if (mazeOptions[mazeNumber][playery * 2][(playerx * 2) + 1] != 1)                                   //
+        playerx++;
+      else {
+        error();
+      }
+    }
+    if (digitalRead(matrix_arrows[3]) == 1 && arrows_last[3] != 1) {
+      if (mazeOptions[mazeNumber][(playery * 2) + 1][(playerx * 2)] != 1)
+        playery++;
+      else {
+        error();
+      }
+    }
+    for (int b = 0; b < 4; b++) {
+      arrows_last[b] = digitalRead(matrix_arrows[b]);
+    }
+    playery = constrain(playery, 0, 7);
+    playerx = constrain(playerx, 0, 7);
+    mazeOptions[mazeNumber][playery * 2][playerx * 2] = 4;
+    boolean mazeDone = true;
+    for (int A = 0; A < 8; A++) {                                                             // ------
+      for (int B = 0; B < 8; B++) {
+        if (mazeOptions[mazeNumber][A * 2][B * 2] == 5) {
+          mazeDone = false;
+        }
+      }
+    }
+    if (mazeDone)
+      solved_Modules[1] = 1;
+    render();
+  }
+  else {
+    if (millis() % 1000 > 500) {
+      for (int A = 0; A < 6; A++) {
+        digitalWrite(matrix_Pins_Col[A + 1], LOW);
+        digitalWrite(matrix_Pins_Row[A + 1], HIGH);
+
+      }
+    }
+    else {
+      for (int A = 0; A < 8; A++) {
+
+        digitalWrite(matrix_Pins_Col[A], HIGH);
+        digitalWrite(matrix_Pins_Row[A], LOW);
+      }
+    }
+  }
+}
+
+void render() {
+  for (int c = 0; c < 8; c++) {
+    digitalWrite(matrix_Pins_Col[c], HIGH);
+    digitalWrite(matrix_Pins_Row[c], LOW);
+
+  }
+  for (int B = 0; B < 8; B++) {
+    digitalWrite(matrix_Pins_Row[B], HIGH);                          // ------
+    for (int A = 0; A < 8; A++) {
+      if (mazeOptions[mazeNumber][B * 2][A * 2] == 2 || (mazeOptions[mazeNumber][B * 2][A * 2] == 5 && millis() % 800 > 400) || (mazeOptions[mazeNumber][B * 2][A * 2] == 4 && millis() % 6 == 2)) {
+        digitalWrite(matrix_Pins_Col[A], LOW);
+      }
+    }
+    digitalWrite(matrix_Pins_Row[B], LOW);
+    for (int i = 0; i < 8; i++) {
+      digitalWrite(matrix_Pins_Col[i], HIGH);
+    }
+  }
+}
+
+void Button() {
+
+  if (digitalRead(buttonPin) == 1 && button_last) {
+    rgb_Color = random(5);
+    digitalWrite(rgb_pins[0], LOW);
+    digitalWrite(rgb_pins[1], LOW);
+    digitalWrite(rgb_pins[2], LOW);
+
+    if (button_Color == "Blue" && button_Label == "Abort") {
+      mode = 1;
+    }
+    else if (batteryCount > 1 && button_Label == "") {
+      mode = 0;
+    }
+    else if (button_Color == "Red" && 1 == 609) { //TBU Port
+      mode = 0;
+    }
+    else if (button_Label == "DickButt") {
+      mode = 2;
+    }
+    else if (button_Color == "White" && batteryCount == 2) {
+      mode = 1;
+    }
+    else if ((timer / 60) % 2 == 1) {
+      mode = 0;
+    }
+    else {
+      mode = 1;
+    }
+
+    button_Timer = millis();
+    rgb_Color = random(5);
+    button_last = false;
+  }
+  if (millis() - button_Timer > 300 && button_last == false) {
+
+    if (rgb_Color == 0) {
+      digitalWrite(rgb_pins[0], LOW);
+      digitalWrite(rgb_pins[1], LOW);
+      analogWrite(rgb_pins[2], 150);
+    }
+    else if (rgb_Color == 1) {
+      analogWrite(rgb_pins[0], 200);
+      digitalWrite(rgb_pins[1], LOW);
+      analogWrite(rgb_pins[2], 200);
+    }
+    else if (rgb_Color == 2) {
+      analogWrite(rgb_pins[0], 200);
+      digitalWrite(rgb_pins[1], LOW);
+      digitalWrite(rgb_pins[2], LOW);
+    }
+    else if (rgb_Color == 3) {
+      analogWrite(rgb_pins[1], 200);
+      digitalWrite(rgb_pins[0], LOW);
+      digitalWrite(rgb_pins[2], LOW);
+    }
+    else if (rgb_Color == 4) {
+      analogWrite(rgb_pins[0], 200);
+      analogWrite(rgb_pins[1], 200);
+      analogWrite(rgb_pins[2], 200);
+    }
+    Serial.println(rgb_Color);
+  }
+  else {
+    digitalWrite(rgb_pins[0], LOW);
+    digitalWrite(rgb_pins[1], LOW);
+    digitalWrite(rgb_pins[2], LOW);
+  }
+  if (digitalRead(buttonPin) == 0 && button_last == false) {
+    if (mode == 0 && millis() - button_Timer < 300) {
+      solved_Modules[2] = 1;
+    }
+    else if (mode == 1 && rgb_Color == 0 && (timer / 60 == 3 || timer - (timer / 10) * 10 == 3 || timer % 60 / 10 == 3)) {
+      solved_Modules[2] = 1;
+    }
+    else if (mode == 1 && rgb_Color == 1 && (timer / 60 + (timer - (timer / 10) * 10) == 8)) {
+      solved_Modules[2] = 1;
+    }
+    else if (mode == 1 && rgb_Color == 2 && (timer / 60 + (timer - (timer / 10) * 10) + ( timer % 60 / 10)) % 2 == 0) {
+      solved_Modules[2] = 1;
+    }
+    else if (mode == 1 && (rgb_Color == 3 || rgb_Color == 4) && (timer / 60 + (timer - (timer / 10) * 10) + ( timer % 60 / 10)) % 2 == 0) { //TBU real thing
+      solved_Modules[2] = 1;
+    }
+    else {
+      Serial.println("Button");
+      error();
+
+    }
+    button_last = true;
+    button_Timer = 9999999;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void arrayCopy(int arrChange[], int arrEdit[], int sizes) {
+  for (int i = 0 ; i < sizes; i++) {
+    arrChange[i] = arrEdit[i];
+  }
+}
+void buzzer(int priority, int pitch, int timer) {
+  if (millis() > timerB)
+    priorityB = 0;
+  if (priority >= priorityB) {
+    tone(buzzer_pin, pitch, timer);
+    timerB = millis() + timer;
+    priorityB = priority;
+  }
+}
+void numberWrite(int num, int arr[7], int strikesdone) {
+  for (int i = 0; i < 7; i++) {
+    digitalWrite(arr[i], LOW);
+  }
+  switch (strikesdone) {
+    case 0:
+      switch (num) {
+        case 0:
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          break;
+        case 1:
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          break;
+        case 2:
+          digitalWrite(arr[0], HIGH);                                               //  ________________
+          digitalWrite(arr[1], HIGH);                                               // |                |\|
+          digitalWrite(arr[6], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[4], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[3], HIGH);                                               // |  |          |  | |
+          break;                                                                    // |  |          |  | |
+        case 3:                                                                     // |  `----------|  | |
+          digitalWrite(arr[0], HIGH);                                               // |             |  | |
+          digitalWrite(arr[1], HIGH);                                               // |             |  | |
+          digitalWrite(arr[2], HIGH);                                               // |             |  | |
+          digitalWrite(arr[3], HIGH);                                               // |             |  | |
+          digitalWrite(arr[6], HIGH);                                               // |________________| |
+          break;                                                                    //  \______   _______\|
+        case 4:
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[6], HIGH);
+          break;
+        case 5:
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[3], HIGH);
+          break;
+        case 6:
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          break;
+        case 7:
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          break;
+        case 8:
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          break;
+        case 9:
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[5], HIGH);
+          break;
+      }
+      break;
+    case 1:
+      switch (num) {
+        case 0:
+          digitalWrite(arr[6], HIGH);
+          break;
+        case 1:
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[0], HIGH);
+
+          break;                                                                    //  ________________
+        case 2:                                                                     // |   __________   |\|
+          // |                | |
+          digitalWrite(arr[5], HIGH);                                               // |                | |
+          digitalWrite(arr[2], HIGH);                                               // |                | |
+          break;                                                                    // |                | |
+        case 3:                                                                     // |  |             | |
+          digitalWrite(arr[4], HIGH);                                               // |  |             | |
+          digitalWrite(arr[5], HIGH);                                               // |  |             | |
+          digitalWrite(arr[4], HIGH);                                               // |  |             | |
+          digitalWrite(arr[5], HIGH);                                               // |  |__________   | |
+          digitalWrite(arr[4], HIGH);                                               // |________________| |
+          break;                                                                    //  \______   _______\|
+        case 4:
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          break;
+        case 5:
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[4], HIGH);
+          break;
+        case 6:
+          digitalWrite(arr[1], HIGH);
+          break;
+        case 7:
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[6], HIGH);
+          break;
+        case 8:
+          break;
+        case 9:
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[3], HIGH);
+          break;
+      }
+      break;
+
+    case 2:
+      switch (num) {
+        case 1:  //A
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[6], HIGH);
+          break;
+        case 9://i
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[4], HIGH);
+          break;
+        case 4: //d
+
+          digitalWrite(arr[1], HIGH);                                               //  ________________
+          digitalWrite(arr[2], HIGH);                                               // |   __________   |\|
+          digitalWrite(arr[3], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[4], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[6], HIGH);                                               // |  |          |  | |
+          break;                                                                    // |  |          |  | |
+        case 5:  //E                                                                // |  `----------|  | |
+          digitalWrite(arr[0], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[4], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[5], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[3], HIGH);                                               // |  |          |  | |
+          digitalWrite(arr[6], HIGH);                                               // |________________| |
+          break;                                                                    //  \______   _______\|
+        case 6://F
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[6], HIGH);
+          break;
+        case 3: //c
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[3], HIGH);
+          break;
+        case 8://h
+
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          break;
+        case 0://j
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[4], HIGH);
+          break;
+        case 2:  //b
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[3], HIGH);
+          digitalWrite(arr[4], HIGH);
+          digitalWrite(arr[5], HIGH);
+          break;
+        case 7://g
+          digitalWrite(arr[6], HIGH);
+          digitalWrite(arr[0], HIGH);
+          digitalWrite(arr[1], HIGH);
+          digitalWrite(arr[2], HIGH);
+          digitalWrite(arr[5], HIGH);
+          digitalWrite(arr[3], HIGH);
+          break;
+      }
+  }
+}

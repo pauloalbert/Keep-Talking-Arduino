@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<EventGhost Version="1722" Guid="{C779B89C-5908-4A54-A573-11949041C61E}" Time="1498038466.96">
+    <Autostart Name="Autostart" Expanded="True">
+        <Plugin Identifier="Serial" Guid="{D565171F-1703-4212-972C-B824B55329CB}" File="Serial">
+            gAIoSwRNgCVLA0sASwBLAIhYAgAAAFxycQBYBgAAAFNlcmlhbHEBSwB0cQIu
+        </Plugin>
+    </Autostart>
+    <Macro Name="Dead" Expanded="True">
+        <Event Name="Serial.explode" />
+        <Event Name="Serial.&#10;explode" />
+        <Event Name="System.DeviceRemoved" />
+        <Action>
+            System.MuteOff(u'Speakers (Realtek High Definiti')
+        </Action>
+        <Action>
+            System.SetMasterVolume(100.0, u'Speakers (Realtek High Definiti')
+        </Action>
+        <Action>
+            Serial.Read(None, 0.0)
+        </Action>
+        <Action>
+            System.PlaySound(u'C:\\Users\\Paulo\\Desktop\\Folders\\programing\\Arduino\\Arduino code\\Ktane_Code\\Audio\\5.0 Loud Explosion sound effect.wav', 0, False)
+        </Action>
+    </Macro>
+    <Macro Name="Solved" Expanded="True">
+        <Event Name="Serial.&#10;SOLVED" />
+        <Action>
+            System.SetMasterVolume(87.0, u'Speakers (Realtek High Definiti')
+        </Action>
+        <Action>
+            System.PlaySound(u'C:\\Users\\Paulo\\Desktop\\Folders\\programing\\Arduino\\Arduino code\\Ktane_Code\\Audio\\defused2.wav', 0, False)
+        </Action>
+    </Macro>
+</EventGhost>

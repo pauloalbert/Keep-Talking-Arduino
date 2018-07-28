@@ -1,0 +1,5 @@
+ - make the new timer.
+ - fix that double buzzer glitch
+ - get a new 8x8 matrix
+ - speed up the code with the library
+ - 

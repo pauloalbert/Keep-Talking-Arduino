@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<EventGhost Version="1722" Guid="{E9D9C357-0051-41A9-8C0A-4BC02F1A898E}" Time="1493654417.62">
+    <Autostart Name="Autostart" Expanded="True">
+        <Plugin Identifier="Serial" Guid="{D565171F-1703-4212-972C-B824B55329CB}" File="Serial">
+            gAIoSwRNgCVLA0sASwBLAIlYAgAAAFx0cQBYBgAAAFNlcmlhbHEBSwB0cQIu
+        </Plugin>
+    </Autostart>
+    <Macro Name="Read" Expanded="True">
+        <Event Name="System.DeviceRemoved" />
+        <Event Name="Serial.explode" />
+        <Action>
+            Serial.Read(None, 0.0)
+        </Action>
+        <Action>
+            System.PlaySound(u'C:\\Users\\Paulo\\Desktop\\Folders\\programing\\Arduino\\Arduino code\\Ktane_Code\\Cut Loud Explosion sound effect.wav', 1, False)
+        </Action>
+    </Macro>
+</EventGhost>
