@@ -10,10 +10,10 @@ void maze() {                                                                   
       }
     }
     if (digitalRead(matrix_arrows[1]) == 1 && arrows_last[1] != 1) {                          //   ___________
-      if (maze_options[maze_number][(playery * 2) - 1][playerx * 2] != 1)                       //  |  __  |  | |
+      if (maze_options[maze_number][(playery * 2) - 1][playerx * 2] != 1)                     //  |  __  |  | |
         playery--;                                                                            //  |__  | | |__|
       else {                                                                                  //  |    |
-        Serial.println("Maze: up");   //ErrorPrint                                                           //     | |___|  |
+        Serial.println("Maze: up");   //ErrorPrint                                            //    |  |___|  |
         error();                                                                              //  |_|___  |   |
       }                                                                                       //  |  ___  | |_|
     }                                                                                         //  | |_____|   |

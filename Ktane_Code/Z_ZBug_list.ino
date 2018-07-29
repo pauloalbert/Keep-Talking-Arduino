@@ -1,9 +1,8 @@
 /*ADD comments(like this for instance!)
  V fix i2c once and for all some how (just try re installing everything again, using two new pins as i2c or using a smart i2c library) (maybe did it by pulling out the voltage, starting and re starting but not sure)
- * maze get new 8x8 & check differating strengths / use fast digitalWRite
  * fast digitalWrite/using rpi for calculations (rpi c)
  * symbols
- * maybe another module who knows
+ * maybe another module who knows (three button needy / regular module and more wires
  ? fix morse pulsing
  V add decimals to timer in case of last second win
  * maybe add strike numbers again
@@ -16,26 +15,23 @@
 
 /* List by order of what i should actually do:
 
- *  Maze: get a new 8x8 led. 
- *        fix dimmmed lights by A) finding out if its a programming side issue. try to quicken up the code by using fast digitalWrites and a raspberry pi to calculate it.
- *                              B) remove the resistors. try to give it more power.
+ *  Maze: get a new 8x8 led. DONE
+ *        Test it out
  * Wires: Add 5 and 6 wires
  * Button: Make colors more clear.
- *         fix pulsing issues.  
+ *         calculate resistors  
  * Timer: 
  *      add the leds for the STRIKES
-        maybe add striked numbers again (makes button really fucking hard, would recommend to check first if its intuitive, but the alphabet letters should be removed completely)
- * General:Orginise code by: 
- *               2) make another tab for setups
+        maybe add striked numbers again (makes button really fucking hard, would recommend to check first if its intuitive, but the alphabet letters should be removed completely) 
  *         Try and make random more random by:
  *               A) installing a library that does shit for you
  *               B) adding a potentiometer to A0 and just spin it around
  *               C) use the current date/time at randomSeed()
  *         Speaking of which you(i) can make it less random by: (note this mostly talks about wires and button)
  *               A) removing unnecesiary options
- *               B) weighted randoms
- *               C) alot of pre built situations and you randomize betrween them.
- *               D) a more complicaded random where you have some built in and the rest you randomize but make sure they dont affect the situation.(hardest)
+ *               B) weighted randoms (like preffering specific amounts of wires per say)
+ *               C) alot of pre built situations and you randomize betrween them. 
+ *               D) a more complicaded random where you have some built in and the rest you randomize but make sure they dont affect the situation.(hardest) (pre determined two red wires, the rest are random non reds)
  *        Add the extra add ons to the bomb:
  *              1) ports.
  *              2) Serial.
@@ -59,6 +55,7 @@
  * Building:
  *      Try out what scale works for the bomb
  *      Buy a box from plastelina
+ *      maybe model things in cad beforehand (more interesting wires setup)
  *      sketch the whole thing before with a pencil of the locations.
  *      find ports.
  *      
@@ -82,7 +79,19 @@
 
 /*
  * REVISITING THE ARDUINO:
- * 
+ * Electronics:
+ ?      Rework it all???
+ ?      color code the wires?
+ *      Find correct resistors for the RGB
+ *      Use pullups for all inputs
+ *      connect the 8x8 matrix to the i2c
+ *      fix the timer
+ * Programming:
+ *      clean up the code
+ *      use github
+ *      change the maze code to be i2c
+ *      fix the button.cpp
+ *      fix the missing second glitch
  */
 
 
