@@ -13,7 +13,7 @@ void morse_check() {
   else {
     clicked = false;
   }
-  if (morse_start == true && solved_Modules[3] == 0) {
+  if (morse_start == true && solved_modules[3] == 0) {
 
     if (!digitalRead(morse_button_pin) && morse_press == true) {
       morse_press = false;
@@ -28,7 +28,7 @@ void morse_check() {
         morse_button_pin_loc++;
 
         if (morse_button_pin_loc > morse_response.length() - 1) {
-          solved_Modules[3] = 1;
+          solved_modules[3] = 1;
         }
       }
       else {
@@ -42,11 +42,11 @@ void morse_check() {
     }
 
   }
- 
-  if (millis() > led_timer && solved_Modules[3] == 0) {
+
+  if (millis() > ledTimer && solved_modules[3] == 0) {
     digitalWrite(morse_led_pin, LOW);
   }
-   if (millis() > morse_timer) {
+  if (millis() > morseTimer) {
     morse_update();
   }
 

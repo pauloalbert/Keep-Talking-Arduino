@@ -9,13 +9,13 @@ void Symbols() {
     }
   }
   for (int i = 0 ; i < 4; i ++) {
-    if (digitalRead(Symbol_button_pin[i]) == HIGH && solved_Modules[4] != 1 && !Symbol_pressed) {
+    if (digitalRead(Symbol_button_pin[i]) == HIGH && solved_modules[4] != 1 && !Symbol_pressed) {
       Symbol_pressed = true;
 
-      if (chosen_Symbols_order[Symbol_loc] == i) {
+      if (chosen_symbols_order[Symbol_loc] == i) {
         Symbol_loc++;
         if (Symbol_loc == 4) {
-          solved_Modules[4] = 1;
+          solved_modules[4] = 1;
         }
 
       }
@@ -27,6 +27,6 @@ void Symbols() {
       }
     }
   }
-  
+
 }
 

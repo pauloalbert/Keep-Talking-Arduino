@@ -4,11 +4,11 @@ void arrayCopy(int arrChange[], int arrEdit[], int sizes) {
   }
 }
 void buzzer(int priority, int pitch, int timer) {
-  if (millis() > timerB)
+  if (millis() > buzzerTimer)
     priorityB = 0;
   if (priority >= priorityB) {
     tone(buzzer_pin, pitch, timer);
-    timerB = millis() + timer;
+    buzzerTimer = millis() + timer;
     priorityB = priority;
   }
 }

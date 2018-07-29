@@ -1,9 +1,9 @@
 //if you manage to defuse the bomb
 void save() { 
-  solved = true;
-  for (int i = 0; i < sizeof(solved_Modules) / sizeof(solved_Modules[0]); i++) {
-    if (solved_Modules[i] == 0)
-      solved = false;
+  SOLVED = true;
+  for (int i = 0; i < sizeof(solved_modules) / sizeof(solved_modules[0]); i++) {
+    if (solved_modules[i] == 0)
+      SOLVED = false;
   }
   if (solved) {
     End();

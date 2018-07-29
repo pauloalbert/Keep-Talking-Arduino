@@ -10,9 +10,9 @@ void loop() {                                                     //------------
   }
   else { //actual loop
     if (timer <= 0) {
-      strikes = 3;
+      STRIKES = 3;
     }
-    if (needy)
+    if (NEEDY)
       lever();
     explode();
     save();

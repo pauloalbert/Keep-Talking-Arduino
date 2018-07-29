@@ -9,7 +9,7 @@
  * maybe add strike numbers again
  * Check all of the tbu like wires 5 & 6.
  * fix rgb pulsing
- * put in one place all the variables i can change per game & add some (like difficulty)
+ * put in one place all the variables i can change per game & add some (like DIFFICULTY)
  * ???
  * profit
  */
@@ -23,7 +23,7 @@
  * Button: Make colors more clear.
  *         fix pulsing issues.  
  * Timer: 
- *      add the leds for the strikes
+ *      add the leds for the STRIKES
         maybe add striked numbers again (makes button really fucking hard, would recommend to check first if its intuitive, but the alphabet letters should be removed completely)
  * General:Orginise code by: 
  *               2) make another tab for setups
@@ -47,7 +47,7 @@
  * after everything is done you add:
  * Difficulties: one of the following
  *        A) an int that controls the intensity of the games.
- *        B) missions: unique games like in the original bomb EG: needy module on 20 seconds, 2 strikes at start, harder randoms, wires only, 
+ *        B) missions: unique games like in the original bomb EG: NEEDY module on 20 seconds, 2 STRIKES at start, harder randoms, wires only, 
  *        C) add misc things to the mix like walky talkies or alarms.
  * once the coding side is done:
  * Manual:

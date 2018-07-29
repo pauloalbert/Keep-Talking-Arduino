@@ -3,10 +3,10 @@ void simpleWires() {
 
     if (wires_IO[i] == 3) {
       if (digitalRead(wires_pins[i]) == 0) {
-        if (wireCut == false) {
+        if (wire_cut == false) {
 
           wireTimer = millis();
-          wireCut = true;
+          wire_cut = true;
         }
       }
       if (millis() > wireTimer + 550) {
@@ -28,21 +28,21 @@ void simpleWires() {
           wireTimer = 4294960000;
           error();
           werror = false;
-          wireCut = false;
+          wire_cut = false;
         }
         else {
-          solved_Modules[0] = 1;
+          solved_modules[0] = 1;
         }
       }
     }
     else if (wires_IO[i] == 2) {
       if (digitalRead(wires_pins[i]) == 0) {
-        solved_Modules[0] = 1;
+        solved_modules[0] = 1;
       }
     }
     else {
       if (digitalRead(wires_pins[i]) != wires_IO[i]) {
-        Serial.println("Wires: " + (String)(i+1));
+        Serial.println("Wires: " + (String)(i + 1));
         error();
         wires_IO[i] = digitalRead(wires_pins[i]);
       }
@@ -50,11 +50,11 @@ void simpleWires() {
   }
 }
 /*
-  void numberWrite(int num, int arr[7], int strikesdone) {
+  void numberWrite(int num, int arr[7], int STRIKESdone) {
   for (int i = 0; i < 7; i++) {
     digitalWrite(arr[i], LOW);
   }
-  switch (strikesdone) {
+  switch (STRIKESdone) {
     case 0:
       switch (num) {
         case 0:
