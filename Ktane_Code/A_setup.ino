@@ -3,7 +3,7 @@ void setup() {
   //* * Randomize and start * *
   // |||||||||||||||||||||||||||||||PINMODES|||||||||||||||||||||||||||||||||||||
 
-  Serial.begin(9600);
+  Serial.begin(9600);  
   Serial.println("STARTING THE BOMB...");
   clockDisplay.begin(DISPLAY_ADDRESS);
   randomSeed(analogRead(A7));
@@ -33,13 +33,13 @@ void setup() {
   //
   // |||||||||||||||||||||||||||||||Game randomizers|||||||||||||||||||||||||||||||||||||
   morse_wordNum = random(0, (sizeof(words) / sizeof(words[0])) / 2) * 2;      //returns a random number between 0 and the last word in intervals of 2.
-  maze_number = random(0, 6);
-  batteryCount = constrain(random(0, 5) - 1, 0, 10);
-  serial = serial_possibilities[random(6)];
-  simple_wire_count = random(2, 4) + 1; //TBU random(2,6)
+  maze_number = random(0, 6);                                                 //maze index
+  batteryCount = constrain(random(0, 5) - 1, 0, 4);                           //bomb count
+  serial = serial_possibilities[random(6)];                                   //serial index
+  simple_wire_count = random(2, 4) + 1; //TBU random(2,6)                       simple wire index
   //simple_wire_count = 4;
-  button_color = button_colors[random(5)];
-  button_label = button_labels[round(random(700) / 100)];
+  button_color = button_colors[random(5)];                                    //button color
+  button_label = button_labels[round(random(700) / 100)];                     //button label
   do {
     playerx = random(1, 8); //TBU random(1,8);
     playery = random(1, 8);
@@ -134,12 +134,9 @@ void setup() {
         int temp_wires[6] = {1, 2, 1, 1, 0, 0};
         arrayCopy(wires_IO, temp_wires, 6);
       }
-      break;
+      break; 
   }
-  if (batteryCount < 0) {
-    batteryCount = 0;
-  }
-  if (!(button_color == "Blue" && button_label == "Abort") && !(batteryCount > 1 && button_label == "") && !(button_color == "Red" && 1 == 609) && (button_label == "DickButt")) { //TBU same port
+  if (!(button_color == "Blue" && button_label == "Abort") && !(batteryCount > 1 && button_label == "") && !(button_color == "Red" && 1 == 609) && (button_label == "DickButt")) { //TBU same port 
     solved_beep[2] = 1;
     solved_modules[2] = 1;
   }
