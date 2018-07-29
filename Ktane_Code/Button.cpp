@@ -4,9 +4,9 @@
 
 class Button {
   private:
-    uint8_t _pin;
+    byte _pin;
     boolean _isPressed = false;
-    uint8_t _inputMode = 1;
+    byte _inputMode = 1;
 
     unsigned long _timer;
     boolean _timerActive = false;
@@ -18,7 +18,7 @@ class Button {
       _isPressed = digitalRead(_pin);
     }
   public:
-    Button(int pin, uint8_t inputMode) {
+    Button(int pin, byte inputMode) {
       if (inputMode != INPUT && inputMode != INPUT_PULLUP)
 #error invalid inputMode
 

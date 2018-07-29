@@ -55,262 +55,9 @@ void setup() {
   // |||||||||||||||||||||||||||||||Morse initialization & Randomization|||||||||||||||||||||||||||||||||||
   message = words[morse_wordNum];
   response = words[morse_wordNum + 1];
-  message.toLowerCase();
-  response.toLowerCase();
-  char broken[message.length()];
-  message.toCharArray(broken, message.length() + 1);
-  for (int l = 0; l < message.length(); l++) {
-    int letterInt;
-    switch (broken[l]) {
-      case 'a':
-        letterInt = 0;
-        break;
-      case 'b':
-        letterInt = 1;
-        break;
-      case 'c':
-        letterInt = 2;
-        break;
-      case 'd':
-        letterInt = 3;
-        break;
-      case 'e':
-        letterInt = 4;
-        break;
-      case 'f':
-        letterInt = 5;
-        break;
-      case 'g':
-        letterInt = 6;
-        break;
-      case 'h':
-        letterInt = 7;
-        break;
-      case 'i':
-        letterInt = 8;
-        break;
-      case 'j':
-        letterInt = 9;
-        break;
-      case 'k':
-        letterInt = 10;
-        break;
-      case 'l':
-        letterInt = 11;
-        break;
-      case 'm':
-        letterInt = 12;
-        break;
-      case 'n':
-        letterInt = 13;
-        break;
-      case 'o':
-        letterInt = 14;
-        break;
-      case 'p':
-        letterInt = 15;
-        break;
-      case 'q':
-        letterInt = 16;
-        break;
-      case 'r':
-        letterInt = 17;
-        break;
-      case 's':
-        letterInt = 18;
-        break;
-      case 't':
-        letterInt = 19;
-        break;
-      case 'u':
-        letterInt = 20;
-        break;
-      case 'v':
-        letterInt = 21;
-        break;
-      case 'w':
-        letterInt = 22;
-        break;
-      case 'x':
-        letterInt = 23;
-        break;
-      case 'y':
-        letterInt = 24;
-        break;
-      case 'z':
-        letterInt = 25;
-        break;
-      case '0':
-        letterInt = 26;
-        break;
-      case '1':
-        letterInt = 27;
-        break;
-      case '2':
-        letterInt = 28;
-        break;
-      case '3':
-        letterInt = 29;
-        break;
-      case '4':
-        letterInt = 30;
-        break;
-      case '5':
-        letterInt = 31;
-        break;
-      case '6':
-        letterInt = 32;
-        break;
-      case '7':
-        letterInt = 33;
-        break;
-      case '8':
-        letterInt = 34;
-        break;
-      case '9':
-        letterInt = 35;
-        break;
-      case '?':
-        letterInt = 36;
-        break;
-      case '!':
-        letterInt = 37;
-        break;
-      case ' ':
-        letterInt = 38;
-        break;
-    }
-    morse_message += letters_to_morse[letterInt];
-    morse_message += " ";
-  }
-  morse_message.toCharArray(lineDot, morse_message.length() + 1);
-  //BERLIN WALL OF THE RESPONES NESSAGE STUPID SENTANCE +++++++ (i think i wrote this because its a comment line between the message and the response. i was stupid two weeks ago)
-  char broken2[response.length()];
-  response.toCharArray(broken2, response.length() + 1);
-  for (int l = 0; l < response.length(); l++) {
-    int letterInt;
-    switch (broken2[l]) {
-      case 'a':
-        letterInt = 0;
-        break;
-      case 'b':
-        letterInt = 1;
-        break;
-      case 'c':
-        letterInt = 2;
-        break;
-      case 'd':
-        letterInt = 3;
-        break;
-      case 'e':
-        letterInt = 4;
-        break;
-      case 'f':
-        letterInt = 5;
-        break;
-      case 'g':
-        letterInt = 6;
-        break;
-      case 'h':
-        letterInt = 7;
-        break;
-      case 'i':
-        letterInt = 8;
-        break;
-      case 'j':
-        letterInt = 9;
-        break;
-      case 'k':
-        letterInt = 10;
-        break;
-      case 'l':
-        letterInt = 11;
-        break;
-      case 'm':
-        letterInt = 12;
-        break;
-      case 'n':
-        letterInt = 13;
-        break;
-      case 'o':
-        letterInt = 14;
-        break;
-      case 'p':
-        letterInt = 15;
-        break;
-      case 'q':
-        letterInt = 16;
-        break;
-      case 'r':
-        letterInt = 17;
-        break;
-      case 's':
-        letterInt = 18;
-        break;
-      case 't':
-        letterInt = 19;
-        break;
-      case 'u':
-        letterInt = 20;
-        break;
-      case 'v':
-        letterInt = 21;
-        break;
-      case 'w':
-        letterInt = 22;
-        break;
-      case 'x':
-        letterInt = 23;
-        break;
-      case 'y':
-        letterInt = 24;
-        break;
-      case 'z':
-        letterInt = 25;
-        break;
-      case '0':
-        letterInt = 26;
-        break;
-      case '1':
-        letterInt = 27;
-        break;
-      case '2':
-        letterInt = 28;
-        break;
-      case '3':
-        letterInt = 29;
-        break;
-      case '4':
-        letterInt = 30;
-        break;
-      case '5':
-        letterInt = 31;
-        break;
-      case '6':
-        letterInt = 32;
-        break;
-      case '7':
-        letterInt = 33;
-        break;
-      case '8':
-        letterInt = 34;
-        break;
-      case '9':
-        letterInt = 35;
-        break;
-      case '?':
-        letterInt = 36;
-        break;
-      case '!':
-        letterInt = 37;
-        break;
-      case ' ':
-        letterInt = 39;
-        break;
-    }
-    morse_response += letters_to_morse[letterInt];
-  }
-  morse_response.toCharArray(lineDot2, morse_response.length() + 1);
+
+  morse_char_to_index(message,false).toCharArray(lineDot2, morse_char_to_index(message,false).length() + 1);
+  morse_char_to_index(response,false).toCharArray(lineDot2, morse_char_to_index(response,false).length() + 1);
 
 
   int orange = 0;
@@ -474,9 +221,38 @@ void setup() {
 
 }
 
-void pinModeGroup(int[] pins, uint_8 output) {
+
+
+void pinModeGroup(int[] pins, byte output) {
   for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
     pinMode(pins[z], output);
 
+}
+
+//This function recieves a message and returns an array of chars that are in morse. read_spaces decides whether spaces are ignored (for responses).
+char[] morse_char_to_index(String message, boolean read_spaces) {
+  
+  char split_message[message.length()];      //creates a char array with the length of the string
+  message.toLowerCase();                     //makes sure the string is in lower case
+  message.toCharArray(split_message, message.length() + 1);  //splits the string into the char array
+  
+  for (int l = 0; l < message.length(); l++) {
+    int letterInt;
+    if ('a' <= split_message[l] && split_message[l] <= 'z')
+      letterInt = split_message[l] - 'a';
+    else if ('0' <= split_message[l] && split_message[l] <= '9')
+      letterInt = split_message[l] - '0';
+    else if (split_message[l] == '?')
+      letterInt = 36;
+    else if (split_message[l] == '!')
+      letterInt = 37;
+    else if (split_message[l] == ' ' && read_spaces)
+      letterInt = 38;
+    else
+      letterInt = 39;
+
+    morse_message += letters_to_morse[letterInt];
+  }
+  return morse_message;
 }
 
