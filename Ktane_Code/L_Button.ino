@@ -1,4 +1,4 @@
-void button() {
+void Button() {
 
   if (digitalRead(button_pin) == 1 && button_last) {
     rgb_color = random(5);

@@ -19,10 +19,10 @@ class Button {
     }
   public:
     Button(int pin, byte inputMode) {
-#if (inputMode != INPUT) && (inputMode != INPUT_PULLUP)
+      if (inputMode != INPUT && inputMode != INPUT_PULLUP)
 #error invalid inputMode
-#endif
-      _inputMode = inputMode;
+
+        _inputMode = inputMode;
       _pin = pin;
       pinMode(_pin, _inputMode);
     }

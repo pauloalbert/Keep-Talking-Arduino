@@ -1,4 +1,4 @@
-void morseCheck() {
+void morse_check() {
   //Starting the input sequence
   if (digitalRead(morse_button_pin)) {
 

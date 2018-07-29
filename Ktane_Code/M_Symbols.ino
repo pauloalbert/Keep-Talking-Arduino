@@ -1,5 +1,5 @@
 boolean Symbol_pressed = false;
-void symbols() {
+void Symbols() {
   if (Symbol_pressed) {
     Symbol_pressed = false;
     for (int i = 0 ; i < 4; i ++) {
