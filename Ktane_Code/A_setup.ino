@@ -1,49 +1,40 @@
 void setup() {
-
-
+  
   //* * Randomize and start * *
   // |||||||||||||||||||||||||||||||PINMODES|||||||||||||||||||||||||||||||||||||
 
   Serial.begin(9600);
   Serial.println("STARTING THE BOMB...");
   clockDisplay.begin(DISPLAY_ADDRESS);
+  randomSeed(analogRead(A7));
+  
   // Output the wires:
   pinMode(buzzer_pin, OUTPUT);
-  randomSeed(analogRead(A7));
-  for (int z = 0; z < (sizeof(wires_pins) / sizeof(wires_pins[0])); z++) 
-    pinMode(wires_pins[z], INPUT);
   
-  for (int z = 0; z < (sizeof(matrix_Pins_Row) / sizeof(matrix_Pins_Row[0])); z++) 
-    pinMode(matrix_Pins_Row[z], OUTPUT);   
-  for (int z = 0; z < (sizeof(matrix_Pins_Col) / sizeof(matrix_Pins_Col[0])); z++) 
-    pinMode(matrix_Pins_Col[z], OUTPUT); 
-  for (int z = 0; z < (sizeof(matrix_arrows) / sizeof(matrix_arrows[0])); z++)
-    pinMode(matrix_arrows[z], INPUT);
-
-
-  for (int z = 0; z < (sizeof(rgb_pins) / sizeof(rgb_pins[0])); z++) 
-    pinMode(rgb_pins[z], OUTPUT);  
+  pinModeGroup(wires_pins,INPUT);
+  
+  pinModeGroup(matrix_Pins_Row, OUTPUT);
+  pinModeGroup(matrix_Pins_Row, OUTPUT);
+  pinModeGroup(matrix_arrows,INPUT);
+  
+  pinModeGroup(rgb_pins,OUTPUT);
   pinMode(button_pin, INPUT);
 
   pinMode(morse_button_pin, INPUT);
   pinMode(morse_led_pin, OUTPUT);
   pinMode(morse_buzzer_pin, OUTPUT);
 
-  for (int z = 0; z < (sizeof(Symbol_button_pin) / sizeof(Symbol_button_pin[0])); z++) 
-    pinMode(Symbol_button_pin[z], INPUT);
-    
-  for (int z = 0; z < (sizeof(lever_pins) / sizeof(lever_pins[0])); z++) 
-    pinMode(lever_pins[z], INPUT);
-  for (int z = 0; z < (sizeof(lever_leds_pins) / sizeof(lever_leds_pins[0])); z++) 
-    pinMode(lever_leds_pins[z], OUTPUT);
-  
+  pinModeGroup(Symbol_button_pin, INPUT);
 
+  pinModeGroup(lever_pins, INPUT);
+  pinModeGroup(lever_led_pins, OUTPUT);
+  
 
   //
   // |||||||||||||||||||||||||||||||Game randomizers|||||||||||||||||||||||||||||||||||||
-  morse_wordNum = random(0, (sizeof(Words) / sizeof(Words[0])) / 2) * 2;
+  morse_wordNum = random(0, (sizeof(Words) / sizeof(Words[0])) / 2) * 2;      //returns a random number between 0 and the last word in intervals of 2.
   mazeNumber = random(0, 6);
-  batteryCount = constrain(random(0, 5) - 1, 0, 10);
+  batteryCount = constrain(random(0, 5) - 1, 0, 10);                           
   serial = serialPossibilities[random(6)];
   simpleWireCount = random(2, 4) + 1; //TBU random(2,6)
   //simpleWireCount = 4;
