@@ -17,11 +17,11 @@ void loop() {                                                     //------------
     explode();
     save();
     timerLoop();
-    morse_check();
-    Button();
+    morseCheck();
+    button();
     maze();
     simpleWires();
-    Symbols();
+    symbols();
     correctBeep();
   }
 }
