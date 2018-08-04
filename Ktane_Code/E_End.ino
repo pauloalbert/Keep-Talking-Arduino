@@ -1,8 +1,8 @@
 //turns off all pins. happens in the end of the game no matter what the outcome was.
 void End() {
 
-  for (int z = 0; z < (sizeof(lever_leds_pins) / sizeof(lever_leds_pins[0])); z++) {
-    digitalWrite(lever_leds_pins[z], LOW);
+  for (int z = 0; z < (sizeof(lever_led_pins) / sizeof(lever_led_pins[0])); z++) {
+    digitalWrite(lever_led_pins[z], LOW);
   }
   for (int z = 0; z < (sizeof(matrix_pins_row) / sizeof(matrix_pins_row[0])); z++) {
     digitalWrite(matrix_pins_row[z], LOW);

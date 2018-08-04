@@ -8,8 +8,8 @@ void timerLoop() {
         clockDisplay.writeDigitNum(3, timer % 60 / 10, false); //tenths
         clockDisplay.writeDigitNum(1, timer / 60 % 10, false); //minutes
         clockDisplay.writeDigitNum(0, timer / 600, false); //tenminutes
-        blinkColon = !blinkColon;
-        clockDisplay.drawColon(blinkColon);
+        BLINKCOLON = !BLINKCOLON;
+        clockDisplay.drawColon(BLINKCOLON);
         clockDisplay.writeDisplay();
       }
       timeTick = millis();
@@ -22,7 +22,7 @@ void timerLoop() {
       centiTimer++;
       if (centiTimer >= ((1000 / k) * 1)) {
 
-        blinkColon = !blinkColon;
+        BLINKCOLON = !BLINKCOLON;
         buzzer(1, 800, 100);
         centiTimer = 0;
         timer--;
@@ -31,7 +31,7 @@ void timerLoop() {
         clockDisplay.writeDigitNum(3, int(((1000 / k) - centiTimer)*k / 100 / (pow(2, 2 - STRIKES) / (4 - STRIKES))) % 10, false); //centiseconds
         clockDisplay.writeDigitNum(4, random(1, 10), false); //deciseconds //int((100-centiTimer)/(pow(2, 2 - STRIKES) / (4 - STRIKES))) / 10
         clockDisplay.writeDigitNum(0, (timer - 1) % 60 / 10, false); //tenths
-        clockDisplay.writeDigitNum(1, (timer - 1) % 60 % 10, blinkColon); //seconds
+        clockDisplay.writeDigitNum(1, (timer - 1) % 60 % 10, BLINKCOLON); //seconds
 
 
         clockDisplay.drawColon(false);

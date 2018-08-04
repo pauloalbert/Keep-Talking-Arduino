@@ -1,9 +1,8 @@
-#include <TimeLib.h>
-
 #include <Wire.h>
 #include <Adafruit_LEDBackpack.h>
 #include <Adafruit_GFX.h>
 #include <gfxfont.h>
+#include "Button.cpp"
 #include "Joystick.cpp"
 
 /* How to activate:
@@ -137,7 +136,7 @@ int maze_options[6][15][15] = {{
     {2, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
     {2, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 0}
   }, {
-    {3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3},
+    {3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3}, 
     {1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1},
     {3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 3, 1, 3, 0, 3},
     {1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
@@ -191,8 +190,8 @@ boolean button_last = true;
 
 //Morse
 int morse_wordNum;
-char lineDot[100];
-char lineDot2[100];
+char lineDot[200]; //split chars of all morse message
+char lineDotRes[200];//split chars of all morse response
 String message, response, morse_message, morse_response;
 int morse_loc = 0; //What character is the blinking on.
 int morse_button_pin_loc = 0; //What character is the button on.
@@ -250,7 +249,7 @@ const int morse_buzzer_pin = 8;
 const int Symbol_button_pin[4] = {47, 46, 45, 44};
 
 
-const int lever_leds_pins[4] = {8, 19, 40, 10};
+const int lever_led_pins[4] = {8, 19, 40, 10};
 
 
 

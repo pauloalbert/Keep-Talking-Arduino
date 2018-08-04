@@ -20,23 +20,23 @@ void lever() {
       leverTimer = millis();
 
     if (millis() - leverTimer > 9000)
-      digitalWrite(lever_leds_pins[0], HIGH);
+      digitalWrite(lever_led_pins[0], HIGH);
     else
-      digitalWrite(lever_leds_pins[0], LOW);
+      digitalWrite(lever_led_pins[0], LOW);
     if (millis() - leverTimer > 18000)
-      digitalWrite(lever_leds_pins[1], HIGH);
+      digitalWrite(lever_led_pins[1], HIGH);
     else
-      digitalWrite(lever_leds_pins[1], LOW);
+      digitalWrite(lever_led_pins[1], LOW);
     if (millis() - leverTimer > 27000)
-      digitalWrite(lever_leds_pins[2], HIGH);
+      digitalWrite(lever_led_pins[2], HIGH);
     else
-      digitalWrite(lever_leds_pins[2], LOW);
+      digitalWrite(lever_led_pins[2], LOW);
     if (millis() - leverTimer > 33000 && millis() - leverTimer < 41000 && fmod( 1 * millis() , (double)(45000 - (millis() - leverTimer))) > (45000 - (double)(millis() - leverTimer)) / 2)
-      digitalWrite(lever_leds_pins[3], HIGH);
+      digitalWrite(lever_led_pins[3], HIGH);
     else if (millis() - leverTimer > 41000 && fmod( 1 * millis() , (double)(65)) > 30)
-      digitalWrite(lever_leds_pins[3], HIGH);
+      digitalWrite(lever_led_pins[3], HIGH);
     else
-      digitalWrite(lever_leds_pins[3], LOW);
+      digitalWrite(lever_led_pins[3], LOW);
   }
 }
 

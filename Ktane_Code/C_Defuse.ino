@@ -5,9 +5,9 @@ void save() {
     if (solved_modules[i] == 0)
       SOLVED = false;
   }
-  if (solved) {
+  if (SOLVED) {
     End();
-    Serial.println("SOLVED);
+    Serial.println("SOLVED");
     delay(100);                                                                          
     exit(1);                                                                           
   }                                                                               

@@ -40,12 +40,13 @@
  *              A) those LIT indicators
  *              B) a voltage switch of 10V 5V and 3V
  *        adding these and trying to implement them further on in the bomb (3v could make leds turn off, adding generally alot of switching around in the game)
- * after everything is done you add:
+ ! after everything is done you add:
+ * Modules: leds for every enabled module and solved module.
  * Difficulties: one of the following
  *        A) an int that controls the intensity of the games.
  *        B) missions: unique games like in the original bomb EG: NEEDY module on 20 seconds, 2 STRIKES at start, harder randoms, wires only, 
  *        C) add misc things to the mix like walky talkies or alarms.
- * once the coding side is done:
+ ! once the coding side is done:
  * Manual:
  *      write down an orginised final version of the rules
  *      find out how pdf is converted to html
@@ -91,7 +92,30 @@
  *      use github
  *      change the maze code to be i2c
  *      fix the button.cpp
- *      fix the missing second glitch
+ *      fix the missing :59 second glitch
+ *      add the two last modules and complete wires
  */
 
+
+/*
+ * POTENTIAL ADDITIONS (Ido style):
+ * Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_PRESET , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER)
+ * Wire order mixed up and signed on the box (could have cryptic symbols or even cryptic symnbols that change depending on variables)
+ * Making the new module idea a needy bomb
+ * adding a voltage switch with  widely used 3V that also disables leds. (Also for example 5V must be off for buttons, 10V for needys or the bomb strikes/needy speeds up, multiple switches)
+ * better looking led designs (see orange/purple notebook)
+ */
+
+
+/*
+ * ROUTINE CHECKING THE MODULES:
+ * Timer[X]
+ * Strikes[X]
+ * Wires[X]
+ * Button[X]
+ * Lever[X]
+ * Morse[X]
+ * Symbol[X]
+ * Maze[X]
+ */
 

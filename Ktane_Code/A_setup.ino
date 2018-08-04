@@ -56,11 +56,11 @@ void setup() {
   message = words[morse_wordNum];
   response = words[morse_wordNum + 1];
 
-  morse_char_to_index(message,false).toCharArray(lineDot2, morse_char_to_index(message,false).length() + 1);
-  morse_char_to_index(response,false).toCharArray(lineDot2, morse_char_to_index(response,false).length() + 1);
+  morse_char_to_index(message,true,lineDot);
+  morse_char_to_index(response,false,lineDotRes);
 
 
-  int orange = 0;
+  int orange = 0; 
   switch (simple_wire_count) {
     case 3:
       for (int c = 0; c < simple_wire_count; c++) {
@@ -220,15 +220,15 @@ void setup() {
 
 
 
-void pinModeGroup(int[] pins, byte output) {
+void pinModeGroup(int pins[], byte output) {
   for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
     pinMode(pins[z], output);
 
 }
 
-//This function recieves a message and returns an array of chars that are in morse. read_spaces decides whether spaces are ignored (for responses).
-char[] morse_char_to_index(String message, boolean read_spaces) {
-  
+//This function recieves a message, turns it into the index numbers for each letter, and turns it into a character array of numbers. read_spaces decides whether spaces are not ignored (for messages).
+void morse_char_to_index(String message, boolean read_spaces, char write_array[]) {
+  String morse_message;
   char split_message[message.length()];      //creates a char array with the length of the string
   message.toLowerCase();                     //makes sure the string is in lower case
   message.toCharArray(split_message, message.length() + 1);  //splits the string into the char array
@@ -249,7 +249,8 @@ char[] morse_char_to_index(String message, boolean read_spaces) {
       letterInt = 39;
 
     morse_message += letters_to_morse[letterInt];
+    morse_message += " ";
   }
-  return morse_message;
+  morse_message.toCharArray(write_array, morse_message.length() + 1);
 }
 

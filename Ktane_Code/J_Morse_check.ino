@@ -24,10 +24,10 @@ void morseCheck() {
       else { //line
         io = 1;
       }
-      if (lineDot2[morse_button_pin_loc] - '0' == io) {
+      if (lineDotRes[morse_button_pin_loc] - '0' == io) {
         morse_button_pin_loc++;
 
-        if (morse_button_pin_loc > morse_response.length() - 1) {
+        if (morse_button_pin_loc > response.length() - 1) {
           solved_modules[3] = 1;
         }
       }
