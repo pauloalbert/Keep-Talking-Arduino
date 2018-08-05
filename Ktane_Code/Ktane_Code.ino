@@ -192,7 +192,7 @@ boolean button_last = true;
 int morse_wordNum;
 char lineDot[200]; //split chars of all morse message
 char lineDotRes[200];//split chars of all morse response
-String message, response, morse_message, morse_response;
+String morse_message, morse_response;
 int morse_loc = 0; //What character is the blinking on.
 int morse_button_pin_loc = 0; //What character is the button on.
 boolean clicked = false; //trigger.
@@ -240,7 +240,7 @@ const int matrix_pins_row[8] = {27, 2, 31, 30, 22, 29, 24, 25}; //2 + 13 + 22-34
 const int matrix_pins_col[8] = {13, 26, 28, 23, 33, 32, 18, 34};
 
 const int rgb_pins[3] = {9, 11, 12};
-const int button_pin = A0;
+const int button_pin = 30;
 
 const int morse_button_pin = 37;
 const int morse_led_pin = 35;

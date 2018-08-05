@@ -4,10 +4,13 @@ void setup() {
   // |||||||||||||||||||||||||||||||PINMODES|||||||||||||||||||||||||||||||||||||
 
   Serial.begin(9600);  
-  Serial.println("STARTING THE BOMB...");
+  Serial.println("STARTING THE BOMB:");
+  
+  Serial.println("[*] INITIALISING THE I2C BUS...");
   clockDisplay.begin(DISPLAY_ADDRESS);
   randomSeed(analogRead(A7));
 
+  Serial.println("[*] SETTING PINMODES...");
   // Output the wires:
   pinMode(buzzer_pin, OUTPUT);
 
@@ -29,9 +32,12 @@ void setup() {
   pinModeGroup(lever_pins, INPUT);
   pinModeGroup(lever_led_pins, OUTPUT);
 
-
+  
+  Serial.println("[*] RANDOMIZING VARIABLES AND SETTING UP MODULES...");
+  
   //
   // |||||||||||||||||||||||||||||||Game randomizers|||||||||||||||||||||||||||||||||||||
+  Serial.println("    > Getting indexes");
   morse_wordNum = random(0, (sizeof(words) / sizeof(words[0])) / 2) * 2;      //returns a random number between 0 and the last word in intervals of 2.
   maze_number = random(0, 6);                                                 //maze index
   batteryCount = constrain(random(0, 5) - 1, 0, 4);                           //bomb count
@@ -40,6 +46,7 @@ void setup() {
   //simple_wire_count = 4;
   button_color = button_colors[random(5)];                                    //button color
   button_label = button_labels[round(random(700) / 100)];                     //button label
+  Serial.println("    > Setting up maze");
   do {
     playerx = random(1, 8); //TBU random(1,8);
     playery = random(1, 8);
@@ -52,14 +59,16 @@ void setup() {
   } while (maze_options[maze_number][goaly * 2][goalx * 2] != 3 || abs(goaly - playery) < 3 || abs(goalx - playerx) < 3);
   maze_options[maze_number][goaly * 2][goalx * 2] = 5;
 
+
+  Serial.println("    > Setting up morse");
   // |||||||||||||||||||||||||||||||Morse initialization & Randomization|||||||||||||||||||||||||||||||||||
-  message = words[morse_wordNum];
-  response = words[morse_wordNum + 1];
+  morse_message = words[morse_wordNum];
+  morse_response = words[morse_wordNum + 1];
 
-  morse_char_to_index(message,true,lineDot);
-  morse_char_to_index(response,false,lineDotRes);
+  morse_char_to_index(morse_message,true,lineDot);
+  morse_char_to_index(morse_response,false,lineDotRes);
 
-
+  Serial.println("    > Setting up wires");
   int orange = 0; 
   switch (simple_wire_count) {
     case 3:
@@ -194,7 +203,8 @@ void setup() {
   }
 
   // |||||||||||||||||||||||||||||||PRINTING VARIABLES FOR SETUP|||||||||||||||||||||||||||||||||||||
-
+  
+  Serial.println("[*] DONE!");
   for (int c = 0; c < 6; c++) {
     Serial.println((String)(c + 1) + ":  Color - " + (String)wires_layout[c] + "  I/O: " + (String)wires_IO[c]);
   }
@@ -228,29 +238,27 @@ void pinModeGroup(int pins[], byte output) {
 
 //This function recieves a message, turns it into the index numbers for each letter, and turns it into a character array of numbers. read_spaces decides whether spaces are not ignored (for messages).
 void morse_char_to_index(String message, boolean read_spaces, char write_array[]) {
-  String morse_message;
-  char split_message[message.length()];      //creates a char array with the length of the string
+  String index_message;
   message.toLowerCase();                     //makes sure the string is in lower case
-  message.toCharArray(split_message, message.length() + 1);  //splits the string into the char array
   
   for (int l = 0; l < message.length(); l++) {
     int letterInt;
-    if ('a' <= split_message[l] && split_message[l] <= 'z')
-      letterInt = split_message[l] - 'a';
-    else if ('0' <= split_message[l] && split_message[l] <= '9')
-      letterInt = split_message[l] - '0';
-    else if (split_message[l] == '?')
+    if ('a' <= message[l] && message[l] <= 'z')
+      letterInt = message[l] - 'a';
+    else if ('0' <= message[l] && message[l] <= '9')
+      letterInt = message[l] - '0';
+    else if (message[l] == '?')
       letterInt = 36;
-    else if (split_message[l] == '!')
+    else if (message[l] == '!')
       letterInt = 37;
-    else if (split_message[l] == ' ' && read_spaces)
+    else if (message[l] == ' ' && read_spaces)
       letterInt = 38;
     else
       letterInt = 39;
 
-    morse_message += letters_to_morse[letterInt];
-    morse_message += " ";
+    index_message += letters_to_morse[letterInt];
+    index_message += " ";
   }
-  morse_message.toCharArray(write_array, morse_message.length() + 1);
+  index_message.toCharArray(write_array, message.length());
 }
 

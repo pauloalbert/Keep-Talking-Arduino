@@ -27,7 +27,7 @@ void morseCheck() {
       if (lineDotRes[morse_button_pin_loc] - '0' == io) {
         morse_button_pin_loc++;
 
-        if (morse_button_pin_loc > response.length() - 1) {
+        if (morse_button_pin_loc > morse_response.length() - 1) {
           solved_modules[3] = 1;
         }
       }
