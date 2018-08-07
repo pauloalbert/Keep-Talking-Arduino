@@ -33,18 +33,22 @@ void setup() {
 
   randomize_setup(-1);
   print_setup();
-
   Serial.println("[!] Starting up the KTaNE terminal");
   Serial.println("[!] Type a command or write START to activate the bomb (write HELP for options)");
   Serial.println("[!] Make sure to set monitor setting to \'Newline\'");
   while (true) {
     if (Serial.available() > 0) {
+      Serial.println(Serial.available());
       char chr = Serial.read();
-      if (chr != '\n')
+      if (chr != '\n') {
+        Serial.println(chr);
         terminal_command += chr;
+      }
       else {
+        Serial.println("OKAY");
         terminal_commands(terminal_command);
-        chr = "";
+        if (!terminal_exit)
+          chr = "";
         terminal_command = "";
       }
     }
@@ -94,11 +98,11 @@ void morse_char_to_index(String message, boolean read_spaces, char write_array[]
 
 
 
-void randomize_setup(int seed) {
+void randomize_setup(int s) {
+  seed = s;
   if (seed == -1)
-    randomSeed(analogRead(A7));
-  else
-    randomSeed(seed);
+    seed = analogRead(A7);
+  randomSeed(seed);
   Serial.println("[*] RANDOMIZING VARIABLES AND SETTING UP MODULES...");
   Serial.println("    > Getting indexes");
   morse_wordNum = random(0, (sizeof(words) / sizeof(words[0])) / 2) * 2;      //returns a random number between 0 and the last word in intervals of 2.
@@ -269,7 +273,8 @@ void randomize_setup(int seed) {
 }
 
 void print_setup() {
-  Serial.println("[*] The seed is: " + seed);
+  Serial.println("The seed is: " + (String)seed);
+  Serial.print("Modules: ");
   for (int c = 0; c < 6; c++) {
     Serial.println((String)(c + 1) + ":  Color - " + (String)wires_layout[c] + "  I/O: " + (String)wires_IO[c]);
   }

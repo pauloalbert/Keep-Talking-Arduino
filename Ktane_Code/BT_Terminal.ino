@@ -6,6 +6,37 @@ void terminal_commands(String cmd) {
   command.toUpperCase();
   argument.toUpperCase();
   argument1.toUpperCase();
+  if (command == "HELP") {
+    if (argument == "START" || argument == "")
+      Serial.println("[?] Start - stops the terminal and lets you start the bomb");
+    if (argument == "ENABLE" || argument == "")
+      Serial.println("[?] ENABLE [module name] - module names: WIRES, MAZE, BUTTON, MORSE, SYMBOLS");
+    if (argument == "DISABLE" || argument == "")
+      Serial.println("[?] ENABLE [module name] - module names: WIRES, MAZE, BUTTON, MORSE, SYMBOLS");
+    if (argument == "SET_TIME" || argument == "")
+      Serial.println("[?] SET_TIME [seconds] - set the time in seconds until the bomb explodes.");
+    if (argument == "RANDOMIZE" || argument == "")
+      Serial.println("[?] RANDOMIZE [seed] - randomizes the bomb again. leave seed empty to create a new one.");
+    if (argument == "SET_NEEDY" || argument == "")
+      Serial.println("[?] SET_NEEDY [true/false] - enables or disables the needy modules.");
+    if (argument == "SET_HARDCORE" || argument == "")
+      Serial.println("[?] SET_HARDCORE [true/false] - enables or disables the hardcore mode.");
+    if (argument == "SET_MILLIS_TIMER" || argument == "")
+      Serial.println("[?] SET_MILLIS_TIMER [true/false] - when inabled the timer switches to [seconds){milliseconds] in the last minute.");
+  }
+  if (command == "SETTINGS") {
+    Serial.println("[?] Module enabled status:");
+    Serial.println(" . ---> WIRES " + (String)(solved_modules[0] == 1 ? "[V]" : "[X]"));
+    Serial.println(" . ---> MAZE " + (String)(solved_modules[1] == 1 ? "[V]" : "[X]"));
+    Serial.println(" . ---> BUTTONS " + (String)(solved_modules[2] == 1 ? "[V]" : "[X]"));
+    Serial.println(" . ---> MORSE " + (String)(solved_modules[3] == 1 ? "[V]" : "[X]"));
+    Serial.println(" . ---> SYMBOLS " + (String)(solved_modules[4] == 1 ? "[V]" : "[X]"));
+    Serial.println("[?] Bomb timer: " + timer);
+    Serial.println("[?] Hardcore enabled: " + (String)(HARDCORE ? "[V]" : "[X]"));
+    Serial.println("[?] Bomb difficulty: Null"); //TBU add difficulties
+    Serial.println("[?] Bomb needy modules: " + (String)(NEEDY ? "[V]" : "[X]"));
+    Serial.println("[?] Milliseconds enabled: " + (String)(MILLISTIMER ? "[V]" : "[X]"));
+  }
   if (command == "EXIT") {
     terminal_exit = true;
   }
@@ -24,7 +55,7 @@ void terminal_commands(String cmd) {
       Serial.println("[@] Enabled the module " + argument);
     }
     else if (argument == "" || argument == "HELP" || argument == "?")
-      Serial.println("[?] ENABLE [module name] - module names){ WIRES, MAZE, BUTTON, MORSE, SYMBOLS");
+      Serial.println("[?] ENABLE [module name] - module names: WIRES, MAZE, BUTTON, MORSE, SYMBOLS");
     else
       Serial.println("[X] Error, \'" + argument + "\' not recognized\n\tYou may enable the modules WIRES, MAZE, BUTTON, MORSE, SYMBOLS.");
 
@@ -37,7 +68,7 @@ void terminal_commands(String cmd) {
       Serial.println("[@] Disabled the module " + argument);
     }
     else if (argument == "" || argument == "HELP" || argument == "?")
-      Serial.println("[?] DISABLE [module name] - module names){ WIRES, MAZE, BUTTON, MORSE, SYMBOLS");
+      Serial.println("[?] DISABLE [module name] - module names: WIRES, MAZE, BUTTON, MORSE, SYMBOLS");
     else
       Serial.println("[X] Error, \'" + argument + "\' not recognized\n\tYou may disable the modules WIRES, MAZE, BUTTON, MORSE, SYMBOLS.");
   }
@@ -126,23 +157,23 @@ void toggle_module(String module, boolean enable) {
   module.toUpperCase();
 
   if (module == "WIRES") {
-  solved_modules[0] = enable;
+    solved_modules[0] = enable;
     solved_beep[0] = enable;
   }
   if (module  == "MAZE") {
-  solved_modules[1] = enable;
+    solved_modules[1] = enable;
     solved_beep[1] = enable;
   }
   if (module == "BUTTON") {
-  solved_modules[2] = enable;
+    solved_modules[2] = enable;
     solved_beep[2] = enable;
   }
   if (module == "MORSE") {
-  solved_modules[3] = enable;
+    solved_modules[3] = enable;
     solved_beep[3] = enable;
   }
   if (module == "SYMBOLS") {
-  solved_modules[4] = enable;
+    solved_modules[4] = enable;
     solved_beep[4] = enable;
   }
 
