@@ -3,12 +3,11 @@ void setup() {
   //* * Randomize and start * *
   // |||||||||||||||||||||||||||||||PINMODES|||||||||||||||||||||||||||||||||||||
 
-  Serial.begin(9600);  
+  Serial.begin(9600);
   Serial.println("STARTING THE BOMB:");
-  
+
   Serial.println("[*] INITIALISING THE I2C BUS...");
   clockDisplay.begin(DISPLAY_ADDRESS);
-  randomSeed(analogRead(A7));
 
   Serial.println("[*] SETTING PINMODES...");
   // Output the wires:
@@ -32,11 +31,75 @@ void setup() {
   pinModeGroup(lever_pins, INPUT);
   pinModeGroup(lever_led_pins, OUTPUT);
 
-  
+  randomize_setup(-1);
+  print_setup();
+
+  Serial.println("[!] Starting up the KTaNE terminal");
+  Serial.println("[!] Type a command or write START to activate the bomb (write HELP for options)");
+  Serial.println("[!] Make sure to set monitor setting to \'Newline\'");
+  while (true) {
+    if (Serial.available() > 0) {
+      char chr = Serial.read();
+      if (chr != '\n')
+        terminal_command += chr;
+      else {
+        terminal_commands(terminal_command);
+        chr = "";
+        terminal_command = "";
+      }
+    }
+    if (terminal_exit)
+      break;
+  }
+
+  Serial.println("[!] Exiting terminal...");
+  Serial.println("Press on button when ready!");
+  //Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_PRESET , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER)
+}
+
+
+
+void pinModeGroup(int pins[], byte output) {
+  for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
+    pinMode(pins[z], output);
+
+}
+
+//This function recieves a message, turns it into the index numbers for each letter, and turns it into a character array of numbers. read_spaces decides whether spaces are not ignored (for messages).
+void morse_char_to_index(String message, boolean read_spaces, char write_array[]) {
+  String index_message;
+  message.toLowerCase();                     //makes sure the string is in lower case
+
+  for (int l = 0; l < message.length(); l++) {
+    int letterInt;
+    if ('a' <= message[l] && message[l] <= 'z')
+      letterInt = message[l] - 'a';
+    else if ('0' <= message[l] && message[l] <= '9')
+      letterInt = message[l] - '0';
+    else if (message[l] == '?')
+      letterInt = 36;
+    else if (message[l] == '!')
+      letterInt = 37;
+    else if (message[l] == ' ' && read_spaces)
+      letterInt = 38;
+    else
+      letterInt = 39;
+
+    index_message += letters_to_morse[letterInt];
+    index_message += " ";
+  }
+  index_message.toCharArray(write_array, message.length());
+}
+
+
+
+
+void randomize_setup(int seed) {
+  if (seed == -1)
+    randomSeed(analogRead(A7));
+  else
+    randomSeed(seed);
   Serial.println("[*] RANDOMIZING VARIABLES AND SETTING UP MODULES...");
-  
-  //
-  // |||||||||||||||||||||||||||||||Game randomizers|||||||||||||||||||||||||||||||||||||
   Serial.println("    > Getting indexes");
   morse_wordNum = random(0, (sizeof(words) / sizeof(words[0])) / 2) * 2;      //returns a random number between 0 and the last word in intervals of 2.
   maze_number = random(0, 6);                                                 //maze index
@@ -65,11 +128,11 @@ void setup() {
   morse_message = words[morse_wordNum];
   morse_response = words[morse_wordNum + 1];
 
-  morse_char_to_index(morse_message,true,lineDot);
-  morse_char_to_index(morse_response,false,lineDotRes);
+  morse_char_to_index(morse_message, true, lineDot);
+  morse_char_to_index(morse_response, false, lineDotRes);
 
   Serial.println("    > Setting up wires");
-  int orange = 0; 
+  int orange = 0;
   switch (simple_wire_count) {
     case 3:
       for (int c = 0; c < simple_wire_count; c++) {
@@ -143,9 +206,9 @@ void setup() {
         int temp_wires[6] = {1, 2, 1, 1, 0, 0};
         arrayCopy(wires_IO, temp_wires, 6);
       }
-      break; 
+      break;
   }
-  if (!(button_color == "Blue" && button_label == "Abort") && !(batteryCount > 1 && button_label == "") && !(button_color == "Red" && 1 == 609) && (button_label == "DickButt")) { //TBU same port 
+  if (!(button_color == "Blue" && button_label == "Abort") && !(batteryCount > 1 && button_label == "") && !(button_color == "Red" && 1 == 609) && (button_label == "DickButt")) { //TBU same port
     solved_beep[2] = 1;
     solved_modules[2] = 1;
   }
@@ -202,9 +265,11 @@ void setup() {
     }
   }
 
-  // |||||||||||||||||||||||||||||||PRINTING VARIABLES FOR SETUP|||||||||||||||||||||||||||||||||||||
-  
   Serial.println("[*] DONE!");
+}
+
+void print_setup() {
+  Serial.println("[*] The seed is: " + seed);
   for (int c = 0; c < 6; c++) {
     Serial.println((String)(c + 1) + ":  Color - " + (String)wires_layout[c] + "  I/O: " + (String)wires_IO[c]);
   }
@@ -224,41 +289,4 @@ void setup() {
   }
   Serial.println(" ");
   Serial.println("Batteries: " + (String)batteryCount);
-  Serial.println("Press on button when ready!");
-
 }
-
-
-
-void pinModeGroup(int pins[], byte output) {
-  for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
-    pinMode(pins[z], output);
-
-}
-
-//This function recieves a message, turns it into the index numbers for each letter, and turns it into a character array of numbers. read_spaces decides whether spaces are not ignored (for messages).
-void morse_char_to_index(String message, boolean read_spaces, char write_array[]) {
-  String index_message;
-  message.toLowerCase();                     //makes sure the string is in lower case
-  
-  for (int l = 0; l < message.length(); l++) {
-    int letterInt;
-    if ('a' <= message[l] && message[l] <= 'z')
-      letterInt = message[l] - 'a';
-    else if ('0' <= message[l] && message[l] <= '9')
-      letterInt = message[l] - '0';
-    else if (message[l] == '?')
-      letterInt = 36;
-    else if (message[l] == '!')
-      letterInt = 37;
-    else if (message[l] == ' ' && read_spaces)
-      letterInt = 38;
-    else
-      letterInt = 39;
-
-    index_message += letters_to_morse[letterInt];
-    index_message += " ";
-  }
-  index_message.toCharArray(write_array, message.length());
-}
-

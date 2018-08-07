@@ -41,6 +41,10 @@ int batteryCount;                         //appendix value
 boolean start = false;  //starting the code
 boolean start_pressed = false; //if the start button is pressed
 
+String terminal_command = ""; //stores the command text
+boolean terminal_exit=false;
+
+int seed = -1; //the seed that randomizes. set to -1 if not predefined
 
 // ~ ~ ~ ~ Possibilities: ~ ~ ~ ~ ~
 //Each number is assosiated a symbol
@@ -226,7 +230,7 @@ unsigned long morseTimer;
 unsigned long ledTimer = 0;
 unsigned long last_press;
 
-
+  
 
 
 // * * Wires * *
