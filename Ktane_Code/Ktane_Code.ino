@@ -24,16 +24,16 @@ boolean MILLISTIMER = true; //if to show the milliseconds once the timer hits 0:
 int timer = 300;            //STARTING TIME IN SECONDS
 boolean HARDCORE = false;   //1 strike
 boolean NEEDY = true;       //uses NEEDY modules
-int DIFFICULTY = 0;         //Null
+byte DIFFICULTY = 0;         //Null
 
 //General bomb:
 // 1:Wires 2:Maze 3:Button 4:morse 5:Symbols
-int solved_beep[5] = {0, 1, 0, 0, 0};     //TMP {0,0,0,1,1}
-int solved_modules[5] = {0, 1, 0, 0, 0};  //TBU more
-boolean SOLVED = false;                   //Did the player win?
+byte solved_beep[5] = {0, 1, 0, 0, 0};     //TMP {0,0,0,1,1}
+byte solved_modules[5] = {0, 1, 0, 0, 0};  //TBU more
+byte SOLVED = false;                   //Did the player win?
 int STRIKES = 0;
 
-enum {_10V, _5V, _33V} voltage = _10V;   //null, future appendix
+enum {_10V, _5V, _33V} voltage = _10V;   //null, future appendix TBU
 String serial_possibilities[6] = {"E33BAP", "DAB", "C", "D", "E", "F"}; //null, future appendix
 String serial;                            //the CHOSEN ONE
 int batteryCount;                         //appendix value
@@ -180,10 +180,10 @@ int wires_IO[6]; //Which wires need to be cut
 boolean wire_cut;       //Wire_cut
 
 //Maze:
-int maze_number;  
-int playerx;
-int playery;
-int arrows_last[4];
+byte maze_number;  
+byte playerx;
+byte playery;
+byte arrows_last[4];
 
 //Button:
 String button_color;
@@ -194,8 +194,8 @@ boolean button_last = true;
 
 //Morse
 int morse_wordNum;
-char lineDot[200]; //split chars of all morse message
-char lineDotRes[200];//split chars of all morse response
+char lineDot[20]; //split chars of all morse message
+char lineDotRes[20];//split chars of all morse response
 String morse_message, morse_response;
 int morse_loc = 0; //What character is the blinking on.
 int morse_button_pin_loc = 0; //What character is the button on.
@@ -203,16 +203,16 @@ boolean clicked = false; //trigger.
 boolean morse_start = false, morse_press = false;
 
 //Symbols:
-int colrow;
-int Symbol_loc;
-int chosen_symbols[4];
-int chosen_symbols_order[4];
+byte colrow;
+byte symbol_loc; //index of the current symbol to press
+byte chosen_symbols[4];
+byte chosen_symbols_order[4];
 int symbol_array_size = sizeof(symbol_array) / sizeof(symbol_array[0]);
-int symbol_col, symbol_row;
+byte symbol_col, symbol_row;
 
 //Lever:
-int joystick_bits = 7; //seven for YY018B and fourteen for YY008A
-const int lever_pins[4] = {36, 39, 38, 41};
+byte joystick_bits = 7; //seven for YY018B and fourteen for YY008A
+const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
 Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
 //Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
 boolean level_started = false;
@@ -234,26 +234,26 @@ unsigned long last_press;
 
 
 // * * Wires * *
-const int buzzer_pin = 3;
-const int strike_pin[2] = {55, 55};
+const byte buzzer_pin = 3;
+const byte strike_pin[2] = {55, 55};
 
-const int wires_pins[6] = {14, 15, 16, 17, 55, 55};
+const byte wires_pins[6] = {14, 15, 16, 17, 55, 55};
 
-const int matrix_arrows[4] = {6, 5, 7, 4};//left up right down
-const int matrix_pins_row[8] = {27, 2, 31, 30, 22, 29, 24, 25}; //2 + 13 + 22-34
-const int matrix_pins_col[8] = {13, 26, 28, 23, 33, 32, 18, 34};
+const byte matrix_arrows[4] = {6, 5, 7, 4};//left up right down
+const byte matrix_pins_row[8] = {27, 2, 31, 30, 22, 29, 24, 25}; //2 + 13 + 22-34
+const byte matrix_pins_col[8] = {13, 26, 28, 23, 33, 32, 18, 34};
 
-const int rgb_pins[3] = {9, 11, 12};
-const int button_pin = 30;
+const byte rgb_pins[3] = {9, 11, 12};
+const byte button_pin = 30;
 
-const int morse_button_pin = 37;
-const int morse_led_pin = 35;
-const int morse_buzzer_pin = 8;
+const byte morse_button_pin = 37;
+const byte morse_led_pin = 35;
+const byte morse_buzzer_pin = 8;
 
-const int Symbol_button_pin[4] = {47, 46, 45, 44};
+const byte Symbol_button_pin[4] = {47, 46, 45, 44};
 
 
-const int lever_led_pins[4] = {8, 19, 40, 10};
+const byte lever_led_pins[4] = {8, 19, 40, 10};
 
 
 

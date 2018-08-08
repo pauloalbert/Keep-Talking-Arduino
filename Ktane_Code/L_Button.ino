@@ -83,7 +83,7 @@ void button() {
       solved_modules[2] = 1;
     }
     else {
-      Serial.println("Button: error"); //ErrorPrint
+      Serial.println(F("Button: error")); //ErrorPrint
       error();
 
     }

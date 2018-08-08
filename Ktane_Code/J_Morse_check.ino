@@ -34,7 +34,7 @@ void morseCheck() {
       else {
         morse_button_pin_loc = 0;
         morse_start = false;
-        Serial.println("Morse: Error"); //ErrorPrint
+        Serial.println(F("Morse: Error")); //ErrorPrint
         error();
 
       }

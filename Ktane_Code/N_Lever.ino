@@ -9,7 +9,7 @@ void lever() {
   else {
     if (millis() - leverTimer > 45000) { //exploding after 45 seconds
       STRIKES = 3;
-      Serial.println("Lever");//ErrorPrint
+      Serial.println(F("Lever"));//ErrorPrint
     }
     //Checking the lever
     if (joystick.getPos() > joystick_bits / 7 * 6 - 1)

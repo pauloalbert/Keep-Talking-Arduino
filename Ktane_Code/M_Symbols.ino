@@ -12,9 +12,9 @@ void symbols() {
     if (digitalRead(Symbol_button_pin[i]) == HIGH && solved_modules[4] != 1 && !Symbol_pressed) {
       Symbol_pressed = true;
 
-      if (chosen_symbols_order[Symbol_loc] == i) {
-        Symbol_loc++;
-        if (Symbol_loc == 4) {
+      if (chosen_symbols_order[symbol_loc] == i) {
+        symbol_loc++;
+        if (symbol_loc == 4) {
           solved_modules[4] = 1;
         }
 
@@ -22,8 +22,8 @@ void symbols() {
       else {
         error();
 
-        Serial.println("Button: error " + String(i)); //ErrorPrint
-        Symbol_loc = 0;
+        Serial.print(F("Button: error ")); Serial.println(i); //ErrorPrint
+        symbol_loc = 0;
       }
     }
   }

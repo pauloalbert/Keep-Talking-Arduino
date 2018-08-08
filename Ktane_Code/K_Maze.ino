@@ -5,7 +5,7 @@ void maze() {                                                                   
       if (maze_options[maze_number][playery * 2][(playerx * 2) - 1] != 1)
         playerx--;
       else {
-        Serial.println("Maze: left"); //ErrorPrint
+        Serial.println(F("Maze: left")); //ErrorPrint
         error();
       }
     }
@@ -13,7 +13,7 @@ void maze() {                                                                   
       if (maze_options[maze_number][(playery * 2) - 1][playerx * 2] != 1)                     //  |  __  |  | |
         playery--;                                                                            //  |__  | | |__|
       else {                                                                                  //  |    |
-        Serial.println("Maze: up");   //ErrorPrint                                            //    |  |___|  |
+        Serial.println(F("Maze: up"));   //ErrorPrint                                            //    |  |___|  |
         error();                                                                              //  |_|___  |   |
       }                                                                                       //  |  ___  | |_|
     }                                                                                         //  | |_____|   |
@@ -21,7 +21,7 @@ void maze() {                                                                   
       if (maze_options[maze_number][playery * 2][(playerx * 2) + 1] != 1)                                   //
         playerx++;
       else {
-        Serial.println("Maze: right");//ErrorPrint
+        Serial.println(F("Maze: right"));//ErrorPrint
         error();
       }
     }
@@ -29,7 +29,7 @@ void maze() {                                                                   
       if (maze_options[maze_number][(playery * 2) + 1][(playerx * 2)] != 1)
         playery++;
       else {
-        Serial.println("Maze: down");//ErrorPrint
+        Serial.println(F("Maze: down"));//ErrorPrint
         error();
       }
     }

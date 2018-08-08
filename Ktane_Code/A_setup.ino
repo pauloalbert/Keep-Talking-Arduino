@@ -4,12 +4,12 @@ void setup() {
   // |||||||||||||||||||||||||||||||PINMODES|||||||||||||||||||||||||||||||||||||
 
   Serial.begin(9600);
-  Serial.println("STARTING THE BOMB:");
+  Serial.println(F("STARTING THE BOMB:"));
 
-  Serial.println("[*] INITIALISING THE I2C BUS...");
+  Serial.println(F("[*] INITIALISING THE I2C BUS..."));
   clockDisplay.begin(DISPLAY_ADDRESS);
 
-  Serial.println("[*] SETTING PINMODES...");
+  Serial.println(F("[*] SETTING PINMODES..."));
   // Output the wires:
   pinMode(buzzer_pin, OUTPUT);
 
@@ -33,19 +33,17 @@ void setup() {
 
   randomize_setup(-1);
   print_setup();
-  Serial.println("[!] Starting up the KTaNE terminal");
-  Serial.println("[!] Type a command or write START to activate the bomb (write HELP for options)");
-  Serial.println("[!] Make sure to set monitor setting to \'Newline\'");
+  
+  Serial.println(F("[!] Starting up the KTaNE terminal"));
+  Serial.println(F("[!] Type a command or write START to activate the bomb (write HELP for options)"));
+  Serial.println(F("[!] Make sure to set monitor setting to \'Newline\'\n"));
+  
   while (true) {
     if (Serial.available() > 0) {
-      Serial.println(Serial.available());
       char chr = Serial.read();
-      if (chr != '\n') {
-        Serial.println(chr);
+      if (chr != '\n') 
         terminal_command += chr;
-      }
       else {
-        Serial.println("OKAY");
         terminal_commands(terminal_command);
         if (!terminal_exit)
           chr = "";
@@ -56,14 +54,18 @@ void setup() {
       break;
   }
 
-  Serial.println("[!] Exiting terminal...");
-  Serial.println("Press on button when ready!");
+  Serial.println(F("[!] Exiting terminal..."));
+  Serial.println(F("Press on button when ready!"));
   //Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_PRESET , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER)
 }
 
 
 
-void pinModeGroup(int pins[], byte output) {
+
+
+
+
+void pinModeGroup(byte pins[], byte output) {
   for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
     pinMode(pins[z], output);
 
@@ -103,8 +105,8 @@ void randomize_setup(int s) {
   if (seed == -1)
     seed = analogRead(A7);
   randomSeed(seed);
-  Serial.println("[*] RANDOMIZING VARIABLES AND SETTING UP MODULES...");
-  Serial.println("    > Getting indexes");
+  Serial.println(F("[*] RANDOMIZING VARIABLES AND SETTING UP MODULES..."));
+  Serial.println(F("    > Getting indexes"));
   morse_wordNum = random(0, (sizeof(words) / sizeof(words[0])) / 2) * 2;      //returns a random number between 0 and the last word in intervals of 2.
   maze_number = random(0, 6);                                                 //maze index
   batteryCount = constrain(random(0, 5) - 1, 0, 4);                           //bomb count
@@ -113,7 +115,7 @@ void randomize_setup(int s) {
   //simple_wire_count = 4;
   button_color = button_colors[random(5)];                                    //button color
   button_label = button_labels[round(random(700) / 100)];                     //button label
-  Serial.println("    > Setting up maze");
+  Serial.println(F("    > Setting up maze"));
   do {
     playerx = random(1, 8); //TBU random(1,8);
     playery = random(1, 8);
@@ -127,7 +129,7 @@ void randomize_setup(int s) {
   maze_options[maze_number][goaly * 2][goalx * 2] = 5;
 
 
-  Serial.println("    > Setting up morse");
+  Serial.println(F("    > Setting up morse"));
   // |||||||||||||||||||||||||||||||Morse initialization & Randomization|||||||||||||||||||||||||||||||||||
   morse_message = words[morse_wordNum];
   morse_response = words[morse_wordNum + 1];
@@ -135,7 +137,7 @@ void randomize_setup(int s) {
   morse_char_to_index(morse_message, true, lineDot);
   morse_char_to_index(morse_response, false, lineDotRes);
 
-  Serial.println("    > Setting up wires");
+  Serial.println(F("    > Setting up wires"));
   int orange = 0;
   switch (simple_wire_count) {
     case 3:
@@ -269,12 +271,12 @@ void randomize_setup(int s) {
     }
   }
 
-  Serial.println("[*] DONE!");
+  Serial.println(F("[*] DONE!"));
 }
 
 void print_setup() {
-  Serial.println("The seed is: " + (String)seed);
-  Serial.print("Modules: ");
+  Serial.print(F("The seed is: ")); Serial.println(seed);
+  Serial.print(F("Modules: "));
   for (int c = 0; c < 6; c++) {
     Serial.println((String)(c + 1) + ":  Color - " + (String)wires_layout[c] + "  I/O: " + (String)wires_IO[c]);
   }
@@ -287,11 +289,11 @@ void print_setup() {
     Serial.println((String)(b + 1) + ":  Symbol - " + (String)chosen_symbols[b]);
 
   }
-  Serial.print("The order is: ");
+  Serial.print(F("The order is: "));
   for ( int b = 0; b < 4; b++) {
     Serial.print(chosen_symbols[chosen_symbols_order[b]]);
-    Serial.print(" ");
+    Serial.print(F(" "));
   }
-  Serial.println(" ");
+  Serial.println(F(" "));
   Serial.println("Batteries: " + (String)batteryCount);
 }

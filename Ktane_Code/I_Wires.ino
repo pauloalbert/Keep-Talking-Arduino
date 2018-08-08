@@ -24,7 +24,7 @@ void simpleWires() {
           }
         }
         if (werror == true) {
-          Serial.println("Wires: Multiple");
+          Serial.println(F("Wires: Multiple"));
           wireTimer = 4294960000;
           error();
           werror = false;
@@ -42,7 +42,7 @@ void simpleWires() {
     }
     else {
       if (digitalRead(wires_pins[i]) != wires_IO[i]) {
-        Serial.println("Wires: " + (String)(i + 1));
+        Serial.print(F("Wires: ")); Serial.println(i + 1);
         error();
         wires_IO[i] = digitalRead(wires_pins[i]);
       }
