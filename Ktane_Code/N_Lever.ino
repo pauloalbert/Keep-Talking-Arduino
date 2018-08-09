@@ -1,9 +1,9 @@
 void lever() {
-  if (!level_started) { //to make sure it doesnt go off before it even started
+  if (!lever_started) { //to make sure it doesnt go off before it even started
     leverTimer = millis();
     for (int z = 0; z < (sizeof(solved_modules) / sizeof(solved_modules[0])); z++) {
       if (solved_modules[z] == 1)
-        level_started = true;
+        lever_started = true;
     }
   }
   else {

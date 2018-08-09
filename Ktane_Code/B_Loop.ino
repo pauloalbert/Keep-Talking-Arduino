@@ -9,7 +9,7 @@ void loop() {                                                     //------------
     }
   }
   else { //actual loop
-    if (timer < 0 || (timer == 0 && !MILLISTIMER) {
+    if (timer < 0 || (timer == 0 && !MILLISTIMER)) {
       STRIKES = 3;
     }
     if (NEEDY)
