@@ -49,7 +49,7 @@ void terminal_commands(String cmd) {
     else
       Serial.println(F("[X] Error, unexpected argument sent"));
   }
-  
+
   if (command == "START") {
     if (argument == "?" || argument == "HELP")
       Serial.println(F("[?] Start - stops the terminal and lets you start the bomb"));
@@ -88,8 +88,11 @@ void terminal_commands(String cmd) {
   if (command == "SET_TIME") {
     if (argument == "" || argument == "?" || argument == "HELP")
       Serial.println(F("[?] SET_TIME [seconds] - set the time in seconds until the bomb explodes."));
-    else
+    else if (argument.toInt() > 0)
       timer = argument.toInt();
+    else
+      Serial.println(F("Error: argument must be greater than 0"));
+
   }
 
 

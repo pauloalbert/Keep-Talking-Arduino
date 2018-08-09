@@ -8,7 +8,7 @@
  * maybe add strike numbers again
  * Check all of the tbu like wires 5 & 6.
  * fix rgb pulsing
- * put in one place all the variables i can change per game & add some (like DIFFICULTY)
+ V put in one place all the variables i can change per game & add some (like DIFFICULTY)
  * ???
  * profit
  */
@@ -102,8 +102,14 @@
  * Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_PRESET , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER)
  * Wire order mixed up and signed on the box (could have cryptic symbols or even cryptic symnbols that change depending on variables)
  * Making the new module idea a needy bomb
- * adding a voltage switch with  widely used 3V that also disables leds. (Also for example 5V must be off for buttons, 10V for needys or the bomb strikes/needy speeds up, multiple switches)
- * better looking led designs (see orange/purple notebook)
+ * adding a voltage switch with  widely used 3V that also disables leds. (Also for example 5V must be off for buttons, 10V for needys or the bomb strikes/needy speeds up, multiple false switches)
+ * better looking led designs (see hexagon design in orange/purple notebook)
+ * 
+ * Leds turn off,
+ * Buttons needed,
+ * wires needed,
+ * needy needed.
+ * needy doesnt advance
  */
 
 

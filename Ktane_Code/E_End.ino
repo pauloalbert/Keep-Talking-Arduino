@@ -17,7 +17,7 @@ void End() {
     digitalWrite(rgb_pins[z], LOW);
   }
   printf("Time left: %02d:%02d.%02d", (timer / 60), (timer % 60), (int)((((millis() - timeTick) / (pow(2, 2 - STRIKES) / (4 - STRIKES)))) / 10));
-  int buffTime = timer - 1;
+  int buffTime = timer - (MILLISTIMER ? 0 : 1);
   Serial.println("Time left: " + (String)(buffTime / 60) + ":" + (String)(buffTime % 60) + "." + (String)(int)((((millis() - timeTick) / (pow(2, 2 - STRIKES) / (4 - STRIKES)))) / 10));
   digitalWrite(morse_led_pin, LOW);
 }

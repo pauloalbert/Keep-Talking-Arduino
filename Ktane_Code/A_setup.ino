@@ -53,18 +53,18 @@ void setup() {
     if (terminal_exit)
       break;
   }
-
+  if(MILLISTIMER) //If the mills timer is enabled the bomb ends at -1 instead of at 0, so the timer must go down by one to make up for the extra second.
+    timer--;
   Serial.println(F("[!] Exiting terminal..."));
   Serial.println(F("Press on button when ready!"));
   //Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_PRESET , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER)
 }
 
 
+// |||||||||||||||||||||||||||||||FUNCTIONS|||||||||||||||||||||||||||||||||||||
 
 
-
-
-
+//sets the pinmode for an array of pins 
 void pinModeGroup(byte pins[], byte output) {
   for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
     pinMode(pins[z], output);
@@ -74,7 +74,7 @@ void pinModeGroup(byte pins[], byte output) {
 //This function recieves a message, turns it into the index numbers for each letter, and turns it into a character array of numbers. read_spaces decides whether spaces are not ignored (for messages).
 void morse_char_to_index(String message, boolean read_spaces, char write_array[]) {
   String index_message;
-  message.toLowerCase();                     //makes sure the string is in lower case
+  message.toLowerCase(); //makes sure the string is in lower case
 
   for (int l = 0; l < message.length(); l++) {
     int letterInt;
@@ -117,7 +117,7 @@ void randomize_setup(int s) {
   button_label = button_labels[round(random(700) / 100)];                     //button label
   Serial.println(F("    > Setting up maze"));
   do {
-    playerx = random(1, 8); //TBU random(1,8);
+    playerx = random(1, 8); 
     playery = random(1, 8);
   } while (maze_options[maze_number][playery * 2][playerx * 2] != 3);
   int goalx;

@@ -27,11 +27,11 @@ void timerLoop() {
         centiTimer = 0;
         timer--;
       }
-      if (timer != 0) {
+      if (timer >= 0) {
         clockDisplay.writeDigitNum(3, int(((1000 / k) - centiTimer)*k / 100 / (pow(2, 2 - STRIKES) / (4 - STRIKES))) % 10, false); //centiseconds
         clockDisplay.writeDigitNum(4, random(1, 10), false); //deciseconds //int((100-centiTimer)/(pow(2, 2 - STRIKES) / (4 - STRIKES))) / 10
-        clockDisplay.writeDigitNum(0, (timer - 1) % 60 / 10, false); //tenths
-        clockDisplay.writeDigitNum(1, (timer - 1) % 60 % 10, BLINKCOLON); //seconds
+        clockDisplay.writeDigitNum(0, (timer) % 60 / 10, false); //tenths
+        clockDisplay.writeDigitNum(1, (timer) % 60 % 10, BLINKCOLON); //seconds
 
 
         clockDisplay.drawColon(false);
