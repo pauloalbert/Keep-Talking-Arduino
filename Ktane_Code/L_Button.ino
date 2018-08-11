@@ -34,27 +34,28 @@ void button() {
   }
   if (millis() - buttonTimer > 300 && button_last == false) {
 
-    if (rgb_color == 0) {
+    if (rgb_color == 0) { //blue
       digitalWrite(rgb_pins[0], LOW);
       digitalWrite(rgb_pins[1], LOW);
-      analogWrite(rgb_pins[2], 150);
+      analogWrite(rgb_pins[2], 100);
     }
-    else if (rgb_color == 1) {
+    else if (rgb_color == 1) { //purple
+      
       analogWrite(rgb_pins[0], 200);
       digitalWrite(rgb_pins[1], LOW);
-      analogWrite(rgb_pins[2], 200);
+      analogWrite(rgb_pins[2], 10);
     }
-    else if (rgb_color == 2) {
-      analogWrite(rgb_pins[0], 200);
+    else if (rgb_color == 2) { //red
+      analogWrite(rgb_pins[0], 255);
       digitalWrite(rgb_pins[1], LOW);
       digitalWrite(rgb_pins[2], LOW);
     }
-    else if (rgb_color == 3) {
-      analogWrite(rgb_pins[1], 200);
+    else if (rgb_color == 3) { //green
       digitalWrite(rgb_pins[0], LOW);
+      analogWrite(rgb_pins[1], 100);
       digitalWrite(rgb_pins[2], LOW);
     }
-    else if (rgb_color == 4) {
+    else if (rgb_color == 4) { //white
       analogWrite(rgb_pins[0], 200);
       analogWrite(rgb_pins[1], 200);
       analogWrite(rgb_pins[2], 200);

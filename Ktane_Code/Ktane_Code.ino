@@ -215,7 +215,7 @@ byte joystick_bits = 7; //seven for YY018B and fourteen for YY008A
 const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
 Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
 //Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
-boolean level_started = false;
+boolean lever_started = false;
 
 
 // * * Timers * *
