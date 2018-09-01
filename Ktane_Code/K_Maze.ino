@@ -51,20 +51,15 @@ void maze() {                                                                   
       solved_modules[1] = 1;
     render();
   }
-  else {
+  else {  //If the module has been defused, play an animation
     if (millis() % 1000 > 500) {
-      for (int A = 0; A < 6; A++) {
-        digitalWrite(matrix_pins_col[A + 1], LOW);
-        digitalWrite(matrix_pins_row[A + 1], HIGH);
-
-      }
+      matrix.fillScreen(0);
+      matrix.fillRect(2, 2, 4, 4, 1);
+      matrix.writeDisplay();
     }
     else {
-      for (int A = 0; A < 8; A++) {
-
-        digitalWrite(matrix_pins_col[A], HIGH);
-        digitalWrite(matrix_pins_row[A], LOW);
-      }
+      matrix.fillScreen(0);
+      matrix.writeDisplay();
     }
   }
 }

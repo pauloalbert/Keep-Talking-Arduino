@@ -5,6 +5,8 @@
 #include "Button.cpp"
 #include "Joystick.cpp"
 
+#define DISPLAY_ADDRESS 0x70
+#define MAZE_ADDRESS 0x72 
 /* How to activate:
    1.close Eventghost or Serial if open.
    2. upload the 'Ktane_Code' file to make sure
@@ -171,6 +173,7 @@ String words[] = {"Send help", "no", "Sos", "Sorry", "wire", "cut", "defuse", "b
 int centiTimer = 0;
 boolean BLINKCOLON = false;
 #define DISPLAY_ADDRESS 0x70
+#define DISPLAY_BRIGHTNESS 15
 Adafruit_7segment clockDisplay = Adafruit_7segment();
 
 //Wires:
@@ -180,6 +183,8 @@ int wires_IO[6]; //Which wires need to be cut
 boolean wire_cut;       //Wire_cut
 
 //Maze:
+Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
+#define MATRIX_BRIGHTNESS 15
 byte maze_number;  
 byte playerx;
 byte playery;
@@ -240,8 +245,6 @@ const byte strike_pin[2] = {55, 55};
 const byte wires_pins[6] = {14, 15, 16, 17, 55, 55};
 
 const byte matrix_arrows[4] = {6, 5, 7, 4};//left up right down
-const byte matrix_pins_row[8] = {27, 2, 31, 30, 22, 29, 24, 25}; //2 + 13 + 22-34
-const byte matrix_pins_col[8] = {13, 26, 28, 23, 33, 32, 18, 34};
 
 const byte rgb_pins[3] = {9, 11, 12};
 const byte button_pin = 30;

@@ -8,15 +8,22 @@ void setup() {
 
   Serial.println(F("[*] INITIALISING THE I2C BUS..."));
   clockDisplay.begin(DISPLAY_ADDRESS);
+  matrix.begin(MAZE_ADDRESS);
 
+  clockDisplay.setBrightness(MATRIX_BRIGHTNESS);
+  clockDisplay.writeDisplay();
+  
+  matrix.fillScreen(0);
+  matrix.setBrightness(MATRIX_BRIGHTNESS);
+  matrix.setRotation(0);
+  matrix.writeDisplay();
+  
   Serial.println(F("[*] SETTING PINMODES..."));
   // Output the wires:
   pinMode(buzzer_pin, OUTPUT);
 
   pinModeGroup(wires_pins, INPUT);
 
-  pinModeGroup(matrix_pins_row, OUTPUT);
-  pinModeGroup(matrix_pins_row, OUTPUT);
   pinModeGroup(matrix_arrows, INPUT);
 
   pinModeGroup(rgb_pins, OUTPUT);
@@ -33,15 +40,15 @@ void setup() {
 
   randomize_setup(-1);
   print_setup();
-  
+
   Serial.println(F("[!] Starting up the KTaNE terminal"));
   Serial.println(F("[!] Type a command or write START to activate the bomb (write HELP for options)"));
   Serial.println(F("[!] Make sure to set monitor setting to \'Newline\'\n"));
-  
+
   while (true) {
     if (Serial.available() > 0) {
       char chr = Serial.read();
-      if (chr != '\n') 
+      if (chr != '\n')
         terminal_command += chr;
       else {
         terminal_commands(terminal_command);
@@ -53,7 +60,7 @@ void setup() {
     if (terminal_exit)
       break;
   }
-  if(MILLISTIMER) //If the mills timer is enabled the bomb ends at -1 instead of at 0, so the timer must go down by one to make up for the extra second.
+  if (MILLISTIMER) //If the mills timer is enabled the bomb ends at -1 instead of at 0, so the timer must go down by one to make up for the extra second.
     timer--;
   Serial.println(F("[!] Exiting terminal..."));
   Serial.println(F("Press on button when ready!"));
@@ -61,10 +68,14 @@ void setup() {
 }
 
 
+
+
 // |||||||||||||||||||||||||||||||FUNCTIONS|||||||||||||||||||||||||||||||||||||
 
 
-//sets the pinmode for an array of pins 
+
+
+//sets the pinmode for an array of pins
 void pinModeGroup(byte pins[], byte output) {
   for (int z = 0; z < (sizeof(pins) / sizeof(pins[0])); z++)
     pinMode(pins[z], output);
@@ -117,7 +128,7 @@ void randomize_setup(int s) {
   button_label = button_labels[round(random(700) / 100)];                     //button label
   Serial.println(F("    > Setting up maze"));
   do {
-    playerx = random(1, 8); 
+    playerx = random(1, 8);
     playery = random(1, 8);
   } while (maze_options[maze_number][playery * 2][playerx * 2] != 3);
   int goalx;
