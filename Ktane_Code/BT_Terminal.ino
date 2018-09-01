@@ -1,5 +1,6 @@
 //Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER,     HELP, PRINT_SETTINGS)
 void terminal_commands(String cmd) {
+  String commands[] = {"HELP", "DISPLAY", "START", "ENABLE", "DISABLE", "SET_TIME", "RANDOMIZE", "SET_NEEDY", "SET_HARDCORE", "SET_MILLIS_TIMER"};
   String command = splitString(cmd, ' ', 0);
   String argument = splitString(cmd, ' ', 1);
   String argument1 = splitString(cmd, ' ', 2);
@@ -28,7 +29,7 @@ void terminal_commands(String cmd) {
     if (argument == "SET_MILLIS_TIMER" || argument == "")
       Serial.println(F("[?] SET_MILLIS_TIMER [true/false] - when inabled the timer switches to [seconds){milliseconds] in the last minute."));
   }
-  if (command == "DISPLAY" || command == "SETTINGS") {
+  else if (command == "DISPLAY" || command == "SETTINGS") {
     Serial.println(F("[?] Module enabled status:"));
     Serial.print(F(" . ---> WIRES ")); Serial.println(solved_modules[0] == 0 ? "[V]" : "[X]");
     Serial.print(F(" . ---> MAZE ")); Serial.println(solved_modules[1] == 0 ? "[V]" : "[X]");
@@ -41,7 +42,7 @@ void terminal_commands(String cmd) {
     Serial.print(F("[?] Bomb needy modules: ")); Serial.println(NEEDY ? "[V]" : "[X]");
     Serial.print(F("[?] Milliseconds enabled: ")); Serial.println(MILLISTIMER ? "[V]" : "[X]");
   }
-  if (command == "EXIT") {
+  else if (command == "EXIT") {
     if (argument == "?" || argument == "HELP")
       Serial.println(F("[?] Start - stops the terminal and lets you start the bomb"));
     else if (argument == "")
@@ -50,7 +51,7 @@ void terminal_commands(String cmd) {
       Serial.println(F("[X] Error, unexpected argument sent"));
   }
 
-  if (command == "START") {
+  else if (command == "START") {
     if (argument == "?" || argument == "HELP")
       Serial.println(F("[?] Start - stops the terminal and lets you start the bomb"));
     else if (argument == "")
@@ -59,7 +60,7 @@ void terminal_commands(String cmd) {
       Serial.println(F("[X] Error, unexpected argument sent"));
   }
 
-  if (command == "ENABLE") {
+  else if (command == "ENABLE") {
     if (argument == "WIRES" || argument == "MAZE" || argument == "BUTTON" || argument == "MORSE" || argument == "SYMBOLS") {
       toggle_module(argument, true);
       Serial.print(F("[@] Enabled the module ")); Serial.println(argument);
@@ -72,7 +73,7 @@ void terminal_commands(String cmd) {
 
   }
 
-  if (command == "DISABLE") {
+  else if (command == "DISABLE") {
     if (argument == "WIRES" || argument == "MAZE" || argument == "BUTTON" || argument == "MORSE" || argument == "SYMBOLS") {
       toggle_module(argument, false);
       Serial.print(F("[@] Disabled the module ")); Serial.println(argument);
@@ -85,7 +86,7 @@ void terminal_commands(String cmd) {
   }
 
 
-  if (command == "SET_TIME") {
+  else if (command == "SET_TIME") {
     if (argument == "" || argument == "?" || argument == "HELP")
       Serial.println(F("[?] SET_TIME [seconds] - set the time in seconds until the bomb explodes."));
     else if (argument.toInt() > 0)
@@ -96,11 +97,11 @@ void terminal_commands(String cmd) {
   }
 
 
-  if ( command == "GET_SEED") {
+  else if ( command == "GET_SEED") {
     Serial.print(F("[@] The current seed is: ")); Serial.println(seed);
   }
 
-  if (command == "RANDOMIZE") { //TBU make it actually work
+  else if (command == "RANDOMIZE") { //TBU make it actually work
     if (argument == "?" || argument == "HELP")
       Serial.println(F("[?] RANDOMIZE [seed] - randomizes the bomb again. leave seed empty to create a new one."));
     else if (argument == "") {
@@ -117,7 +118,7 @@ void terminal_commands(String cmd) {
     }
     Serial.println(F("[X] As of now RANDOMIZE [seed] doesn't create the same bomb twice"));
   }
-  if ( command == "SET_NEEDY") {
+  else if ( command == "SET_NEEDY") {
     if (argument == "" || argument == "?" || argument == "HELP")
       Serial.println(F("[?] SET_NEEDY [true/false] - enables or disables the needy modules."));
     else {
@@ -133,7 +134,7 @@ void terminal_commands(String cmd) {
       }
     }
   }
-  if ( command == "SET_HARDCORE") {
+  else if ( command == "SET_HARDCORE") {
     if (argument == "" || argument == "?" || argument == "HELP")
       Serial.println(F("[?] SET_HARDCORE [true/false] - enables or disables the hardcore mode."));
     else {
@@ -150,7 +151,7 @@ void terminal_commands(String cmd) {
     }
   }
 
-  if (command == "SET_MILLIS_TIMER") {
+  else if (command == "SET_MILLIS_TIMER") {
     if (argument == "" || argument == "?" || argument == "HELP")
       Serial.println(F("[?] SET_MILLIS_TIMER [true/false] - when inabled the timer switches to [seconds){milliseconds] in the last minute."));
     else {
@@ -165,6 +166,15 @@ void terminal_commands(String cmd) {
 
       }
     }
+  }
+  else{
+    if(similar_command(command, commands) != "null"){
+      Serial.print(F("[X]Unknown command. did you mean \'"));
+      Serial.print(similar_command(command, commands));
+      Serial.println(F("\'?"));
+    }
+    else
+      Serial.println(F("[X]Unknown command"));
   }
   Serial.println(" ");
 }
@@ -201,3 +211,18 @@ void toggle_module(int index, boolean enable) {
   solved_modules[index] = !enable;
   solved_beep[index] = !enable;
 }
+
+
+String similar_command(String s1, String s2[]) {
+  for (int i = 0; i < sizeof(s2); i++) {
+    int differentCount = 0;
+    for (int c = 0; c < s2[i].length() && c < s1.length(); c++)
+      if (s1.charAt(c) != s2[i].charAt(c) && s1.charAt(c) != (s2[i].length() > c + 1 ? s2[i].charAt(c+1) : s1.charAt(c)))
+        differentCount++;
+    if (differentCount <= 2 && abs(s2[i].length() - s1.length()) < 2) {
+      return s2[i];
+    }
+  }
+  return "null";
+}
+

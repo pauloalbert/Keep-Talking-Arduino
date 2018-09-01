@@ -68,3 +68,26 @@ void maze() {                                                                   
     }
   }
 }
+
+
+
+/*
+ * Available 8x8 i2c GTX matrix functions:
+ *begin(address)
+ *writePixel(x, y, color) / drawPixel(x, y, color)
+ *setBrightness(b) #0<b<15
+ *writeFastVLine(topx, topy, h, color)
+ *writeFastHLine(leftx, lefty, w, color)
+ *writeFillRect(x,y,w,hcolor)
+ *drawRect(x,y,w,h,color)
+ *drawRoundRect(x,y,w,h,r,color)
+ *fillRoundRect
+ *fillScreen(color)
+ *drawLine(x0,y0,x1,y1,color)
+ *drawCircle(x0,y0,r,color)
+ *fillCircle(x0,y0,r,color)
+ *drawTriangle(x0y0x1y1x2y2,color
+ *filltriangle(...)
+ *
+ *
+ */
