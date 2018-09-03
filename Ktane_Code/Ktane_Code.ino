@@ -6,7 +6,8 @@
 #include "Joystick.cpp"
 
 #define DISPLAY_ADDRESS 0x70
-#define MAZE_ADDRESS 0x72 
+#define MAZE_ADDRESS 0x72
+#define MAZE_RGB_ADDRESS 0x72
 /* How to activate:
    1.close Eventghost or Serial if open.
    2. upload the 'Ktane_Code' file to make sure
@@ -19,10 +20,11 @@
 
   not neceserall
 */
-
+//Debugging values:
+boolean MATRIXRGB = false;
+Adafruit_8x8matrix matrix = Adafruit_8x8matrix(); //IF MATRIXRGB IS TRUE Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
 //Changable values:
 boolean MILLISTIMER = true; //if to show the milliseconds once the timer hits 0:59
-
 int timer = 300;            //STARTING TIME IN SECONDS
 boolean HARDCORE = false;   //1 strike
 boolean NEEDY = true;       //uses NEEDY modules
@@ -44,7 +46,7 @@ boolean start = false;  //starting the code
 boolean start_pressed = false; //if the start button is pressed
 
 String terminal_command = ""; //stores the command text
-boolean terminal_exit=false;
+boolean terminal_exit = false;
 
 int seed = -1; //the seed that randomizes. set to -1 if not predefined
 
@@ -59,7 +61,7 @@ static int symbol_array[7][7] = {
   { 17, 16, 22, 18,  1, 20,  6},
   { 13, 23, 28, 10,  9, 26,  3}
 };
-int maze_options[6][15][15] = {{
+int maze_options[6][15][15] = {{ //1:Wall, 2:Indicators(Circles), 3:Spaces you can walk on, 4:The player, 5:The goal(Triangle)
     {3, 0, 3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 3, 0, 3},
     {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
     {3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3},
@@ -142,7 +144,7 @@ int maze_options[6][15][15] = {{
     {2, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
     {2, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 1, 0}
   }, {
-    {3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3}, 
+    {3, 0, 3, 0, 3, 1, 3, 0, 3, 0, 3, 0, 3, 0, 3},
     {1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1},
     {3, 0, 3, 1, 3, 0, 3, 0, 3, 1, 3, 1, 3, 0, 3},
     {1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
@@ -183,9 +185,8 @@ int wires_IO[6]; //Which wires need to be cut
 boolean wire_cut;       //Wire_cut
 
 //Maze:
-Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
 #define MATRIX_BRIGHTNESS 15
-byte maze_number;  
+byte maze_number;
 byte playerx;
 byte playery;
 byte arrows_last[4];
@@ -235,7 +236,7 @@ unsigned long morseTimer;
 unsigned long ledTimer = 0;
 unsigned long last_press;
 
-  
+
 
 
 // * * Wires * *

@@ -8,16 +8,16 @@ void setup() {
 
   Serial.println(F("[*] INITIALISING THE I2C BUS..."));
   clockDisplay.begin(DISPLAY_ADDRESS);
-  matrix.begin(MAZE_ADDRESS);
+  matrix.begin(MATRIXRGB ? MAZE_RGB_ADDRESS : MAZE_ADDRESS);
 
   clockDisplay.setBrightness(MATRIX_BRIGHTNESS);
   clockDisplay.writeDisplay();
-  
+
   matrix.fillScreen(0);
   matrix.setBrightness(MATRIX_BRIGHTNESS);
   matrix.setRotation(0);
   matrix.writeDisplay();
-  
+
   Serial.println(F("[*] SETTING PINMODES..."));
   // Output the wires:
   pinMode(buzzer_pin, OUTPUT);
@@ -45,7 +45,7 @@ void setup() {
   Serial.println(F("[!] Type a command or write START to activate the bomb (write HELP for options)"));
   Serial.println(F("[!] Make sure to set monitor setting to \'Newline\'\n"));
 
-  while (true) {
+  while (true) { //Terminal, gets user command, sends it to the 'terminal_commands()' function
     if (Serial.available() > 0) {
       char chr = Serial.read();
       if (chr != '\n')
@@ -69,9 +69,9 @@ void setup() {
 
 
 
-
-// |||||||||||||||||||||||||||||||FUNCTIONS|||||||||||||||||||||||||||||||||||||
-
+// |||||||||||||||||||||||||||||* * * * * * *|||||||||||||||||||||||||||||||||||
+// |||||||||||||||||||||||||||||* FUNCTIONS *|||||||||||||||||||||||||||||||||||
+// |||||||||||||||||||||||||||||* * * * * * *|||||||||||||||||||||||||||||||||||
 
 
 
@@ -138,7 +138,6 @@ void randomize_setup(int s) {
     goaly = random(8);
   } while (maze_options[maze_number][goaly * 2][goalx * 2] != 3 || abs(goaly - playery) < 3 || abs(goalx - playerx) < 3);
   maze_options[maze_number][goaly * 2][goalx * 2] = 5;
-
 
   Serial.println(F("    > Setting up morse"));
   // |||||||||||||||||||||||||||||||Morse initialization & Randomization|||||||||||||||||||||||||||||||||||

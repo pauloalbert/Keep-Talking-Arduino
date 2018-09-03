@@ -1,4 +1,4 @@
-void loop() {                                                     //-------------LOOP------------
+void loop() {
   if (start == false) { //Starting the game by pressing the button
     if (digitalRead(button_pin) == 1) {
       start_pressed = true;

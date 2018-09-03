@@ -1,9 +1,9 @@
 //Terminal in the setup phase to disable modules and set times (functions: DISABLE , ENABLE , SET_TIME , SET_DIFFICULTY, GET_SEED, SET_HARDCORE, SET_NEEDY, SET_MILLIS_TIMER,     HELP, PRINT_SETTINGS)
 void terminal_commands(String cmd) {
-  String commands[] = {"HELP", "DISPLAY", "START", "ENABLE", "DISABLE", "SET_TIME", "RANDOMIZE", "SET_NEEDY", "SET_HARDCORE", "SET_MILLIS_TIMER"};
-  String command = splitString(cmd, ' ', 0);
-  String argument = splitString(cmd, ' ', 1);
-  String argument1 = splitString(cmd, ' ', 2);
+  String commands[] = {"HELP", "DISPLAY", "START", "ENABLE", "DISABLE", "SET_TIME", "RANDOMIZE", "SET_NEEDY", "SET_HARDCORE", "SET_MILLIS_TIMER"}; //A list of all of the commands
+  String command = splitString(cmd, ' ', 0); //the command itself
+  String argument = splitString(cmd, ' ', 1); //the commands argument
+  String argument1 = splitString(cmd, ' ', 2); //the second argument if necessary
   command.toUpperCase();
   argument.toUpperCase();
   argument1.toUpperCase();
@@ -150,7 +150,6 @@ void terminal_commands(String cmd) {
       }
     }
   }
-
   else if (command == "SET_MILLIS_TIMER") {
     if (argument == "" || argument == "?" || argument == "HELP")
       Serial.println(F("[?] SET_MILLIS_TIMER [true/false] - when inabled the timer switches to [seconds){milliseconds] in the last minute."));
@@ -180,6 +179,12 @@ void terminal_commands(String cmd) {
 }
 
 
+// |||||||||||||||||||||||||||||* * * * * * *|||||||||||||||||||||||||||||||||||
+// |||||||||||||||||||||||||||||* FUNCTIONS *|||||||||||||||||||||||||||||||||||
+// |||||||||||||||||||||||||||||* * * * * * *|||||||||||||||||||||||||||||||||||
+
+
+//Disables or enables a given module
 void toggle_module(String module, boolean enable) {
   module.toUpperCase();
 
@@ -206,13 +211,12 @@ void toggle_module(String module, boolean enable) {
 
 }
 
-
 void toggle_module(int index, boolean enable) {
   solved_modules[index] = !enable;
   solved_beep[index] = !enable;
 }
 
-
+//Checks if a string is somewhat similar to one of the commands in an array TBU:improve
 String similar_command(String s1, String s2[]) {
   for (int i = 0; i < sizeof(s2); i++) {
     int differentCount = 0;
