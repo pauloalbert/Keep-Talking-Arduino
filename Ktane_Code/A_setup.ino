@@ -2,7 +2,7 @@ void setup() {
 
   //* * Randomize and start * *
   // |||||||||||||||||||||||||||||||PINMODES|||||||||||||||||||||||||||||||||||||
-
+  
   Serial.begin(9600);
   Serial.println(F("STARTING THE BOMB:"));
 
@@ -17,7 +17,7 @@ void setup() {
   matrix.setBrightness(MATRIX_BRIGHTNESS);
   matrix.setRotation(0);
   matrix.writeDisplay();
-
+  
   Serial.println(F("[*] SETTING PINMODES..."));
   // Output the wires:
   pinMode(buzzer_pin, OUTPUT);

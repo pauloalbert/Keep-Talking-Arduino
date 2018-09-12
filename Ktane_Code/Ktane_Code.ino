@@ -51,15 +51,16 @@ boolean terminal_exit = false;
 int seed = -1; //the seed that randomizes. set to -1 if not predefined
 
 // ~ ~ ~ ~ Possibilities: ~ ~ ~ ~ ~
-//Each number is assosiated a symbol
+//Each number is assosiated a symbol (dont ask why there is no number 5)
+
 static int symbol_array[7][7] = {
-  { 11, 24, 10,  7, 30,  2,  9},
+  { 11, 24, 10,  7, 5 ,  2,  9},
   { 28,  3, 27,  8, 15, 29,  7},
   { 22, 25,  2, 11, 14, 24, 13},
   { 21, 20,  6,  1,  8, 16,  4},
   { 18, 15, 23, 12, 21, 19, 17},
-  { 17, 16, 22, 18,  1, 20,  6},
-  { 13, 23, 28, 10,  9, 26,  3}
+  { 17, 16, 22, 18,  1, 26,  6},
+  { 13, 23, 28, 10,  9, 20,  3}
 };
 int maze_options[6][15][15] = {{ //1:Wall, 2:Indicators(Circles), 3:Spaces you can walk on, 4:The player, 5:The goal(Triangle)
     {3, 0, 3, 0, 3, 0, 3, 1, 3, 0, 3, 1, 3, 0, 3},
@@ -258,6 +259,3 @@ const byte Symbol_button_pin[4] = {47, 46, 45, 44};
 
 
 const byte lever_led_pins[4] = {8, 19, 40, 10};
-
-
-

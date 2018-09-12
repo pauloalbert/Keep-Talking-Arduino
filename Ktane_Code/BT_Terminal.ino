@@ -163,7 +163,7 @@ void terminal_commands(String cmd) {
         MILLISTIMER = false;
         Serial.println(F("[@] Disabled millisecond timer."));
 
-      }
+      } 
     }
   }
   else{
