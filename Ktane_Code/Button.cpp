@@ -5,76 +5,51 @@
 class Button {
   private:
     byte _pin;
-    boolean _isPressed = false;
+    boolean _realState = false;
+  boolean _pulseState = false;
     byte _inputMode = 1;
 
     unsigned long _timer;
     boolean _timerActive = false;
     int _delayPulse = 100;
 
-    boolean _lastPress = false;
-    boolean _state = false;
-    void updatePressed() {
-      _isPressed = digitalRead(_pin);
+    void _updatePressed() {
+      _realState = digitalRead(_pin);
     }
   public:
     Button(int pin, byte inputMode) {
-#if (inputMode != INPUT) && (inputMode != INPUT_PULLUP)
-#error invalid inputMode
-#endif
       _inputMode = inputMode;
       _pin = pin;
       pinMode(_pin, _inputMode);
     }
 
-    //updates the digitalRead aswell
+  
     void update() {
-      updateFast();
-      if (getPulse())
-        if (_lastPress == false) {
-          _state = !_state;
-          _lastPress = true;
-        }
-        else
-          _lastPress = false;
-    }
-    //gets called constantly
-    void updateFast() {
-      pulseTimer();
-    }
-    //starts the delay for the pulse
-    void pulseTimer() {
-      updatePressed();
-      if (_isPressed && !_timerActive) {
+    _updatePressed();
+    if(!_timerActive){
+      _pulseState = false;
+      if(_realState){
         _timer = millis();
         _timerActive = true;
       }
     }
+    else if(_timerActive && millis() - _timer > _delayPulse){
+      if(_realState)
+        _pulseState = true;
+      else
+        _timerActive = false;
+    }
+    }
 
     //checks if the pulse returned a positive
-    boolean getPulse() {
-      if (_timerActive && millis() - _timer > _delayPulse) {
-        updatePressed();
-        if (_isPressed) {
-          return true;
-        }
-        else {
-          _timerActive = false;
-        }
-      }
+    boolean get() {
+      return _pulseState;
     }
     //gets the raw value of the button
     boolean getRaw() {
-      updatePressed();
-      return _isPressed;
+      _updatePressed();
+      return _realState;
     }
-    void setState(boolean state) {
-      _state = state;
-    }
-    boolean getState() {
-      return _state;
-    }
-
 };
 
 #endif
