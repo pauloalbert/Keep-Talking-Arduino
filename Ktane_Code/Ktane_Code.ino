@@ -219,9 +219,6 @@ byte symbol_col, symbol_row;
 
 //Lever:
 byte joystick_bits = 7; //seven for YY018B and fourteen for YY008A
-const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
-Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
-//Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
 boolean lever_started = false;
 
 
@@ -240,7 +237,6 @@ unsigned long last_press;
 
 
 
-// * * Wires * *
 const byte buzzer_pin = 3;
 const byte strike_pin[2] = {55, 55};
 
@@ -259,3 +255,11 @@ const byte Symbol_button_pin[4] = {47, 46, 45, 44};
 
 
 const byte lever_led_pins[4] = {8, 19, 40, 10};
+
+const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
+
+Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
+//Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
+
+Button morseButton = new Button(morse_button_pin, INPUT);
+Button bigButton = new Button(button_pin, INPUT);

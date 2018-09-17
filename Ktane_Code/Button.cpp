@@ -6,12 +6,12 @@ class Button {
   private:
     byte _pin;
     boolean _realState = false;
-  boolean _pulseState = false;
+    boolean _pulseState = false;
     byte _inputMode = 1;
 
     unsigned long _timer;
     boolean _timerActive = false;
-    int _delayPulse = 100;
+    int _delayPulse = 40;
 
     void _updatePressed() {
       _realState = digitalRead(_pin);
@@ -23,22 +23,22 @@ class Button {
       pinMode(_pin, _inputMode);
     }
 
-  
+
     void update() {
-    _updatePressed();
-    if(!_timerActive){
-      _pulseState = false;
-      if(_realState){
-        _timer = millis();
-        _timerActive = true;
+      _updatePressed();
+      if (!_timerActive) {
+        _pulseState = false;
+        if (_realState) {
+          _timer = millis();
+          _timerActive = true;
+        }
       }
-    }
-    else if(_timerActive && millis() - _timer > _delayPulse){
-      if(_realState)
-        _pulseState = true;
-      else
-        _timerActive = false;
-    }
+      else if (_timerActive && millis() - _timer > _delayPulse) {
+        if (_realState)
+          _pulseState = true;
+        else
+          _timerActive = false;
+      }
     }
 
     //checks if the pulse returned a positive
