@@ -1,6 +1,9 @@
 void loop() {
+  bigButton.update();
+  morseButton.update();
+  
   if (start == false) { //Starting the game by pressing the button
-    if (digitalRead(button_pin) == 1) {
+    if (bigButton.get()) {
       start_pressed = true;
     }
     else if (start_pressed) {

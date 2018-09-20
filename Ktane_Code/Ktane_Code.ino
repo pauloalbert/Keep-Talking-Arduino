@@ -261,5 +261,5 @@ const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating t
 Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
 //Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
 
-Button morseButton = new Button(morse_button_pin, INPUT);
-Button bigButton = new Button(button_pin, INPUT);
+Button morseButton;
+Button bigButton;
