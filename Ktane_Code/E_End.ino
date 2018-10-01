@@ -13,12 +13,12 @@ void End() {
   }
   matrix.fillScreen(0);
   matrix.writeDisplay();
-  //printf("Time left: %02d:%02d.%02d", (timer / 60), (timer % 60), (int)((((millis() - timeTick) / (pow(2, 2 - STRIKES) / (4 - STRIKES)))) / 10));
+  //printf("Time left: %02d:%02d.%02d", (timer / 60), (timer % 60), (int)((((millis() - last_timer_update) / (pow(2, 2 - STRIKES) / (4 - STRIKES)))) / 10));
   int buffTime = timer - (MILLISTIMER ? 0 : 1);
   Serial.print(F("Time left: "));
   Serial.print((String)(buffTime / 60 < 10 ? "0" : "") + (String)(buffTime / 60));
   Serial.print(":" + (String)(buffTime % 60 < 10 ? "0" : "") + (String)(buffTime % 60 >= 0 ? (buffTime % 60) : 0));
-  Serial.println("." + (String)((int)(((millis() - timeTick) / (pow(2, 2 - STRIKES) / (4 - STRIKES))) / 10) < 10 ? "0" : "") + (String)((int)(((millis() - timeTick) / (pow(2, 2 - STRIKES) / (4 - STRIKES))) / 10)));
+  Serial.println("." + (String)((int)(((millis() - last_timer_update) / (pow(2, 2 - STRIKES) / (4 - STRIKES))) / 10) < 10 ? "0" : "") + (String)((int)(((millis() - last_timer_update) / (pow(2, 2 - STRIKES) / (4 - STRIKES))) / 10)));
   digitalWrite(morse_led_pin, LOW);
 }
 

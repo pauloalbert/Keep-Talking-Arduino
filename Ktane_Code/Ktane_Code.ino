@@ -219,28 +219,26 @@ byte symbol_col, symbol_row;
 
 //Lever:
 byte joystick_bits = 7; //seven for YY018B and fourteen for YY008A
-const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
-Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
-//Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
 boolean lever_started = false;
+double lever_speed = 5; //lever timer goes down 5 seconds per second being held down
 
 
 // * * Timers * *
-unsigned long timeTick;
+unsigned long last_timer_update = 0; //used to check when the timer was last updated
 unsigned long wireTimer = 4294960000;
 unsigned long buttonTimer = 9999999;
 unsigned long buzzerTimer = 9999999;
 int priorityB = 0;  //buzzer current priority
 unsigned long startTime; // time in millis when the bomb started
-unsigned long leverTimer; // reverse way of counting time.
+unsigned long leverTime; // reverse way of counting time.
 unsigned long morseTimer;
 unsigned long ledTimer = 0;
 unsigned long last_press;
+unsigned long last_loop;
+//unsigned long millis;
 
 
 
-
-// * * Wires * *
 const byte buzzer_pin = 3;
 const byte strike_pin[2] = {55, 55};
 
@@ -259,3 +257,10 @@ const byte Symbol_button_pin[4] = {47, 46, 45, 44};
 
 
 const byte lever_led_pins[4] = {8, 19, 40, 10};
+const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
+
+Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
+//Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
+
+Button morseButton;
+Button bigButton;

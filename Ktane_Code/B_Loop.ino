@@ -1,11 +1,12 @@
 void loop() {
+  
   if (start == false) { //Starting the game by pressing the button
     if (digitalRead(button_pin) == 1) {
       start_pressed = true;
     }
     else if (start_pressed) {
       start = true;
-      startTime = millis();
+      timer_setup();
     }
   }
   else { //actual loop
@@ -24,4 +25,5 @@ void loop() {
     symbols();
     correctBeep();
   }
+  last_loop = millis();
 }

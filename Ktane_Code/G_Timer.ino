@@ -1,6 +1,6 @@
 void timerLoop() {
   if (!MILLISTIMER || timer > 59) {
-    if (timeTick + (1000 * pow(2, 2 - STRIKES) / (4 - STRIKES)) < millis()) {   //1000 * 4/4, 2/3, 1/2 //TBU add strike nums again
+    if (last_timer_update + (1000 * pow(2, 2 - STRIKES) / (4 - STRIKES)) < millis()) {   //1000 * 4/4, 2/3, 1/2 //TBU add strike nums again
       timer--;
       if (timer != 0) {
         buzzer(1, 800, 100);
@@ -12,12 +12,12 @@ void timerLoop() {
         clockDisplay.drawColon(BLINKCOLON);
         clockDisplay.writeDisplay();
       }
-      timeTick = millis();
+      last_timer_update = millis();
     }
   }
   else {
     double k = 50;
-    if (timeTick + ((k * pow(2, 2 - STRIKES) / (4 - STRIKES)) - 1) < millis()) { //1000 * 4/4, 2/3, 1/2 //TBU add strike nums again
+    if (last_timer_update + ((k * pow(2, 2 - STRIKES) / (4 - STRIKES)) - 1) < millis()) { //1000 * 4/4, 2/3, 1/2 //TBU add strike nums again
 
       centiTimer++;
       if (centiTimer >= ((1000 / k) * 1)) {
@@ -37,7 +37,7 @@ void timerLoop() {
         clockDisplay.drawColon(false);
         clockDisplay.writeDisplay();
       }
-      timeTick = millis();
+      last_timer_update = millis();
     }
   }
 }

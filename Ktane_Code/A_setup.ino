@@ -307,3 +307,9 @@ void print_setup() {
   Serial.println(F(" "));
   Serial.println("Batteries: " + (String)batteryCount);
 }
+
+void timer_setup(){
+  startTime = millis();
+  leverTime = millis();
+  last_loop = millis();
+}
