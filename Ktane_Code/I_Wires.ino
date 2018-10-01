@@ -9,7 +9,7 @@ void simpleWires() {
           wire_cut = true;
         }
       }
-      if (millis() > wireTimer + 550) {
+      if (millis() - wireTimer > 550) {
         boolean werror = false;
         for (int a = 0; a < 6; a++) {
           if (wires_IO[a] == 3) {

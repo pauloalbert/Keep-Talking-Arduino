@@ -208,6 +208,8 @@ int morse_loc = 0; //What character is the blinking on.
 int morse_button_pin_loc = 0; //What character is the button on.
 boolean clicked = false; //trigger.
 boolean morse_start = false, morse_press = false;
+int morse_constant = 2;
+int morse_delay = 0;
 
 //Symbols:
 byte colrow;

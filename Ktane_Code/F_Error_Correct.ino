@@ -1,5 +1,5 @@
 void error() {                                                                              //
-  if (millis() > 100) {
+  if (millis() - startTime > 50) {
     STRIKES++;                                                                                //
     buzzer(3, 400, 400);                                                                      //
   }
