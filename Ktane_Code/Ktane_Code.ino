@@ -175,7 +175,6 @@ String words[] = {"Send help", "no", "Sos", "Sorry", "wire", "cut", "defuse", "b
 //Clock:
 int centiTimer = 0;
 boolean BLINKCOLON = false;
-#define DISPLAY_ADDRESS 0x70
 #define DISPLAY_BRIGHTNESS 15
 Adafruit_7segment clockDisplay = Adafruit_7segment();
 
@@ -210,6 +209,7 @@ boolean clicked = false; //trigger.
 boolean morse_start = false, morse_press = false;
 int morse_constant = 2;
 int morse_delay = 0;
+int morse_led_delay = 0;
 
 //Symbols:
 byte colrow;
@@ -233,8 +233,7 @@ unsigned long buzzerTimer = 9999999;
 int priorityB = 0;  //buzzer current priority
 unsigned long startTime; // time in millis when the bomb started
 unsigned long leverTime; // reverse way of counting time.
-unsigned long morseTimer;
-unsigned long ledTimer = 0;
+unsigned long last_morse;
 unsigned long last_press;
 unsigned long last_loop;
 //unsigned long millis;
@@ -263,6 +262,3 @@ const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating t
 
 Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);
 //Joystick_Lever joystick = Joystick_Lever(lever_pins[0],lever_pins[1],lever_pins[2],lever_pins[3]);
-
-Button morseButton;
-Button bigButton;

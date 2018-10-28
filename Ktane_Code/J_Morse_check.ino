@@ -1,7 +1,6 @@
 void morseCheck() {
   //Starting the input sequence
   if (digitalRead(morse_button_pin)) {
-
     morse_start = true;
     morse_press = true;
     if (!clicked) {
@@ -13,9 +12,9 @@ void morseCheck() {
   else {
     clicked = false;
   }
-  if (morse_start == true && solved_modules[3] == 0) {
+  if (morse_start) {
 
-    if (!digitalRead(morse_button_pin) && morse_press == true) {
+    if (!digitalRead(morse_button_pin) && morse_press) {
       morse_press = false;
       int io;
       if (millis() - last_press < 270) { //Dot
@@ -36,18 +35,7 @@ void morseCheck() {
         morse_start = false;
         Serial.println(F("Morse: Error")); //ErrorPrint
         error();
-
       }
-
     }
-
   }
-
-  if (millis() > ledTimer && solved_modules[3] == 0) {
-    digitalWrite(morse_led_pin, LOW);
-  }
-  if (millis() > morseTimer) {
-    morse_update();
-  }
-
 }

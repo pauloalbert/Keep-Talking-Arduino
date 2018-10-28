@@ -18,7 +18,12 @@ void loop() {
     explode();
     save();
     timerLoop();
-    morseCheck();
+    if(solved_modules[3] == 0){
+      morseCheck();
+      morse_update();
+    }
+    else 
+      digitalWrite(morse_led_pin, LOW);
     button();
     maze();
     simpleWires();

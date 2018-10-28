@@ -5,7 +5,7 @@ void setup() {
   
   Serial.begin(9600);
   Serial.println(F("STARTING THE BOMB:"));
-
+  
   Serial.println(F("[*] INITIALISING THE I2C BUS..."));
   clockDisplay.begin(DISPLAY_ADDRESS);
   matrix.begin(MATRIXRGB ? MAZE_RGB_ADDRESS : MAZE_ADDRESS);
@@ -312,4 +312,5 @@ void timer_setup(){
   startTime = millis();
   leverTime = millis();
   last_loop = millis();
+  last_morse = millis();
 }
