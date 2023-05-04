@@ -1,4 +1,5 @@
 void morse_update() {
+  int k = 2;
   //override millisTimer for more accurate morse
   unsigned long millisTimer = millis();
   

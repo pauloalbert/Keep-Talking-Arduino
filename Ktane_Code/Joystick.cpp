@@ -8,8 +8,8 @@ class Joystick {
     int _pin4;
     int currVal = B0000;
   public:
-  byte getPos() = 0;
-  byte getRaw() = 0;
+  virtual byte getPos() = 0;
+  virtual byte getRaw() = 0;
 };
 class Joystick_TwoWay : public Joystick {
   private:
@@ -60,6 +60,3 @@ class Joystick_Lever : public Joystick {
       return currVal;
     }
 };
-
-
-

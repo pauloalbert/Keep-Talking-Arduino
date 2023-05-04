@@ -27,9 +27,9 @@ void setup() {
   pinModeGroup(matrix_arrows, INPUT);
 
   pinModeGroup(rgb_pins, OUTPUT);
-  bigButton = new Button(button_pin, INPUT);
+  //bigButton = new Button(button_pin, INPUT);
 
-  morseButton = new Button(morse_button_pin, INPUT);
+  //morseButton = Button(morse_button_pin, INPUT);
   pinMode(morse_led_pin, OUTPUT);
   pinMode(morse_buzzer_pin, OUTPUT);
 
