@@ -208,6 +208,8 @@ int morse_loc = 0; //What character is the blinking on.
 int morse_button_pin_loc = 0; //What character is the button on.
 boolean clicked = false; //trigger.
 boolean morse_start = false, morse_press = false;
+int morse_constant = 2;
+int morse_delay = 0;
 
 //Symbols:
 byte colrow;
@@ -220,20 +222,22 @@ byte symbol_col, symbol_row;
 //Lever:
 byte joystick_bits = 7; //seven for YY018B and fourteen for YY008A
 boolean lever_started = false;
+double lever_speed = 5; //lever timer goes down 5 seconds per second being held down
 
 
 // * * Timers * *
-unsigned long timeTick;
+unsigned long last_timer_update = 0; //used to check when the timer was last updated
 unsigned long wireTimer = 4294960000;
 unsigned long buttonTimer = 9999999;
 unsigned long buzzerTimer = 9999999;
 int priorityB = 0;  //buzzer current priority
 unsigned long startTime; // time in millis when the bomb started
-unsigned long leverTimer; // reverse way of counting time.
+unsigned long leverTime; // reverse way of counting time.
 unsigned long morseTimer;
 unsigned long ledTimer = 0;
 unsigned long last_press;
-
+unsigned long last_loop;
+//unsigned long millis;
 
 
 

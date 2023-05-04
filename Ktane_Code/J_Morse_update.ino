@@ -1,6 +1,4 @@
 void morse_update() {
-  int k = 2;
-
   if (morse_loc > morse_message.length())
     morse_loc = 0;
   switch (lineDot[morse_loc]) {

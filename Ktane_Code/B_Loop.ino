@@ -8,7 +8,7 @@ void loop() {
     }
     else if (start_pressed) {
       start = true;
-      startTime = millis();
+      timer_setup();
     }
   }
   else { //actual loop
@@ -27,4 +27,5 @@ void loop() {
     symbols();
     correctBeep();
   }
+  last_loop = millis();
 }
