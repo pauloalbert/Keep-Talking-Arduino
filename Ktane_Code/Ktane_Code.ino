@@ -259,6 +259,7 @@ const byte Symbol_button_pin[4] = {47, 46, 45, 44};
 
 
 const byte lever_led_pins[4] = {8, 19, 40, 10};
+
 const byte lever_pins[4] = {36, 39, 38, 41};    //pins (needed before creating the lever)
 
 Joystick_TwoWay joystick = Joystick_TwoWay(lever_pins[1], lever_pins[2], lever_pins[3]);

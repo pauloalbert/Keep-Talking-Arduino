@@ -1,6 +1,6 @@
 void morseCheck() {
   //Starting the input sequence
-  if (digitalRead(morse_button_pin)) {
+  if (morseButton.get()) {
 
     morse_start = true;
     morse_press = true;
@@ -15,7 +15,7 @@ void morseCheck() {
   }
   if (morse_start == true && solved_modules[3] == 0) {
 
-    if (!digitalRead(morse_button_pin) && morse_press == true) {
+    if (!morseButton.get() && morse_press == true) {
       morse_press = false;
       int io;
       if (millis() - last_press < 270) { //Dot

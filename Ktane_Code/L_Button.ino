@@ -1,6 +1,6 @@
 void button() {
 
-  if (digitalRead(button_pin) == 1 && button_last) {
+  if (bigButton.get() && button_last) {
     rgb_color = random(5);
     digitalWrite(rgb_pins[0], LOW);
     digitalWrite(rgb_pins[1], LOW);
@@ -67,7 +67,7 @@ void button() {
     digitalWrite(rgb_pins[1], LOW);
     digitalWrite(rgb_pins[2], LOW);
   }
-  if (digitalRead(button_pin) == 0 && button_last == false) {
+  if (!bigButton.get() && button_last == false) {
     if (mode == 0 && millis() - buttonTimer < 300) {
       solved_modules[2] = 1;
     }
