@@ -52,7 +52,7 @@ void maze() {                                                                   
     render();
   }
   else {  //If the module has been defused, play an animation
-    if (millis() % 1000 > 500) {
+    if (millisTimer % 1000 > 500) {
       matrix.fillScreen(0);
       matrix.fillRect(2, 2, 4, 4, 1);
       matrix.writeDisplay();

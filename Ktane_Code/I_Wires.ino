@@ -5,11 +5,11 @@ void simpleWires() {
       if (digitalRead(wires_pins[i]) == 0) {
         if (wire_cut == false) {
 
-          wireTimer = millis();
+          wireTimer = millisTimer;
           wire_cut = true;
         }
       }
-      if (millis() - wireTimer > 550) {
+      if (millisTimer - wireTimer > 550) {
         boolean werror = false;
         for (int a = 0; a < 6; a++) {
           if (wires_IO[a] == 3) {

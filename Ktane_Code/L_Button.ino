@@ -28,11 +28,11 @@ void button() {
       mode = 1;
     }
 
-    buttonTimer = millis();
+    buttonTimer = millisTimer;
     rgb_color = random(5);
     button_last = false;
   }
-  if (millis() - buttonTimer > 300 && button_last == false) {
+  if (millisTimer - buttonTimer > 300 && button_last == false) {
 
     if (rgb_color == 0) { //blue
       digitalWrite(rgb_pins[0], LOW);
@@ -68,7 +68,7 @@ void button() {
     digitalWrite(rgb_pins[2], LOW);
   }
   if (!bigButton.get() && button_last == false) {
-    if (mode == 0 && millis() - buttonTimer < 300) {
+    if (mode == 0 && millisTimer - buttonTimer < 300) {
       solved_modules[2] = 1;
     }
     else if (mode == 1 && rgb_color == 0 && (timer / 60 == 3 || timer - (timer / 10) * 10 == 3 || timer % 60 / 10 == 3)) {

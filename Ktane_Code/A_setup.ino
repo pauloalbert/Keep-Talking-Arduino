@@ -309,7 +309,8 @@ void print_setup() {
 }
 
 void timer_setup(){
-  startTime = millis();
-  leverTime = millis();
-  last_loop = millis();
+  millisTimer = millis();
+  startTime = millisTimer;
+  leverTime = millisTimer;
+  last_loop = millisTimer;
 }

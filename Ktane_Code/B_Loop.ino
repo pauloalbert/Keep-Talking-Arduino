@@ -12,6 +12,7 @@ void loop() {
     }
   }
   else { //actual loop
+    millisTimer = millis();
     if (timer < 0 || (timer == 0 && !MILLISTIMER)) {
       STRIKES = 3;
     }

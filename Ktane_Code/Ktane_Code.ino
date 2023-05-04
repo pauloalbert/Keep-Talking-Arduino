@@ -237,7 +237,7 @@ unsigned long morseTimer;
 unsigned long ledTimer = 0;
 unsigned long last_press;
 unsigned long last_loop;
-//unsigned long millis;
+unsigned long millisTimer; //general purpose replacement of millis()
 
 
 

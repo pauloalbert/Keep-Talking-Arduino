@@ -1,11 +1,13 @@
 void morseCheck() {
+  //override millisTimer for more accurate morse
+  unsigned long millisTimer = millis();
   //Starting the input sequence
   if (morseButton.get()) {
 
     morse_start = true;
     morse_press = true;
     if (!clicked) {
-      last_press = millis();//only happens on press
+      last_press = millisTimer;//only happens on press
       clicked = true;
     }
     //tone(morse_buzzer_pin, 1000, 1);
@@ -18,7 +20,7 @@ void morseCheck() {
     if (!morseButton.get() && morse_press == true) {
       morse_press = false;
       int io;
-      if (millis() - last_press < 270) { //Dot
+      if (millisTimer - last_press < 270) { //Dot
         io = 0;
       }
       else { //line
@@ -43,10 +45,10 @@ void morseCheck() {
 
   }
 
-  if (millis() > ledTimer && solved_modules[3] == 0) {
+  if (millisTimer > ledTimer && solved_modules[3] == 0) {
     digitalWrite(morse_led_pin, LOW);
   }
-  if (millis() > morseTimer) {
+  if (millisTimer > morseTimer) {
     morse_update();
   }
 
